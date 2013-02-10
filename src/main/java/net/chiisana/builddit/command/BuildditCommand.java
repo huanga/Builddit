@@ -4,7 +4,6 @@ import com.sk89q.worldedit.*;
 import com.sk89q.worldedit.data.DataException;
 import com.sk89q.worldedit.regions.RegionSelector;
 import com.sk89q.worldedit.schematic.SchematicFormat;
-import com.worldcretornica.plotme.PlotManager;
 import net.chiisana.builddit.Builddit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
