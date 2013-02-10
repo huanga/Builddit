@@ -26,6 +26,18 @@ public class BuildditCommand implements CommandExecutor {
 				return false;
 			}
 
+			// TODO: NOT trust third party developers with their shit, and code your own plot system...
+			/*
+			Professional coder, hard at work:
+            ~/temp/PlotMe/src/com/worldcretornica/plotme $ grep -r AutoLink *
+				PlotManager.java:				/*if(pmi.AutoLinkPlots)
+				PlotMapInfo.java:	public boolean AutoLinkPlots;
+				PlotMe.java:			plotworld.set("AutoLinkPlots", true);
+				PlotMe.java:			tempPlotInfo.AutoLinkPlots = currworld.getBoolean("AutoLinkPlots", true);
+				PlotMe.java:			currworld.set("AutoLinkPlots", tempPlotInfo.AutoLinkPlots);
+			*/
+
+			/*
 			// For now, just one action: getlink
 			Player player = (Player)sender;
 
@@ -54,7 +66,7 @@ public class BuildditCommand implements CommandExecutor {
 			} catch (EmptyClipboardException e) {
 				Builddit.getInstance().getLogger().log(Level.SEVERE, "EmptyClipboardException no region selected.");
 			}
-
+			*/
 			// TODO: Add information about this schematic file into database.
 			// TODO: Generate the actual link and send to user.
 			return true;
