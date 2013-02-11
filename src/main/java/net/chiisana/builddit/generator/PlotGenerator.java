@@ -37,6 +37,9 @@ public class PlotGenerator extends ChunkGenerator {
 		int cxx = cx << 4;
 		int czz = cz << 4;
 
+		Builddit.getInstance().getLogger().log(Level.INFO,"...cx/cxx: " + cx + "/" + cxx);
+		Builddit.getInstance().getLogger().log(Level.INFO,"...cz/cxx: " + cz + "/" + czz);
+
 		short[][] result = new short[world.getMaxHeight()/16][];
 		for (int x = 0; x < 16; x++) {
 			Builddit.getInstance().getLogger().log(Level.INFO, "...for x: " + x);
