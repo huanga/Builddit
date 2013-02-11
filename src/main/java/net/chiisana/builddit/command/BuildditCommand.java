@@ -28,7 +28,7 @@ public class BuildditCommand implements CommandExecutor {
 			// TODO: NOT trust third party developers with their shit, and code your own plot system...
 			/*
 			Professional coder, hard at work:
-            ~/temp/PlotMe/src/com/worldcretornica/plotme $ grep -r AutoLink *
+				~/temp/PlotMe/src/com/worldcretornica/plotme $ grep -r AutoLink *
 				PlotManager.java:				/*if(pmi.AutoLinkPlots)
 				PlotMapInfo.java:	public boolean AutoLinkPlots;
 				PlotMe.java:			plotworld.set("AutoLinkPlots", true);
