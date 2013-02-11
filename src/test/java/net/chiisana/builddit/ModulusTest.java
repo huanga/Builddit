@@ -1,6 +1,6 @@
 package net.chiisana.builddit;
 
-import net.chiisana.builddit.generator.PlotHelper;
+import net.chiisana.builddit.helper.PlotHelper;
 import org.junit.Assert;
 import org.junit.Test;
 

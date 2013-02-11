@@ -1,4 +1,4 @@
-package net.chiisana.builddit.generator;
+package net.chiisana.builddit.helper;
 
 import net.chiisana.builddit.model.PlotConfiguration;
 

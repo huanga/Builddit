@@ -1,5 +1,6 @@
 package net.chiisana.builddit.generator;
 
+import net.chiisana.builddit.helper.PlotHelper;
 import net.chiisana.builddit.model.PlotConfiguration;
 import org.bukkit.Chunk;
 import org.bukkit.World;
