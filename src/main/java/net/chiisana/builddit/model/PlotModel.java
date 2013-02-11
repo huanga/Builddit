@@ -5,10 +5,11 @@ import java.util.HashSet;
 public class PlotModel {
 	public String owner;
 
-	public int plotX;
-	public int plotZ;
-
 	private HashSet<String> authorized = new HashSet<String>();
+
+	public PlotModel() {
+		this.owner = "";
+	}
 
 	public void addAuthorized(String user) {
 		this.authorized.add(user);
