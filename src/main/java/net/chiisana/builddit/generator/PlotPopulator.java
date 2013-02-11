@@ -23,7 +23,6 @@ public class PlotPopulator extends BlockPopulator {
 				Builddit.getInstance().getLogger().log(Level.INFO, "...for z: " + z);
 				world.setBiome(x + cxx, z + czz, Biome.PLAINS);
 				for (int y = 0; y < PlotConfiguration.intPlotHeight + 2; y++) {
-					Builddit.getInstance().getLogger().log(Level.INFO, "...for y: " + y);
 					if (y == 0) {
 						// Base Layer
 						setBlockData(world, x, y, z, PlotConfiguration.byteMaterialBaseData);

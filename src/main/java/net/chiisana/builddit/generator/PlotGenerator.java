@@ -43,7 +43,6 @@ public class PlotGenerator extends ChunkGenerator {
 			for (int z = 0; z < 16; z++) {
 				Builddit.getInstance().getLogger().log(Level.INFO, "...for z: " + z);
 				for (int y = 0; y < height; y++) {
-					Builddit.getInstance().getLogger().log(Level.INFO, "...for y: " + y);
 					if (y == 0) {
 						// Base Layer
 						setBlock(result, x, y, z, (short)PlotConfiguration.materialBase.getId());
