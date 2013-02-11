@@ -6,7 +6,7 @@ public class PlotModel {
 	public String owner;
 
 	public int plotX;
-	public int plotY;
+	public int plotZ;
 
 	private HashSet<String> authorized = new HashSet<String>();
 
