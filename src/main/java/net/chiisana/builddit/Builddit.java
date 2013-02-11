@@ -3,7 +3,9 @@ package net.chiisana.builddit;
 import com.sk89q.worldedit.bukkit.WorldEditAPI;
 import com.sk89q.worldedit.bukkit.WorldEditPlugin;
 import net.chiisana.builddit.command.BuildditCommand;
+import net.chiisana.builddit.generator.PlotGenerator;
 import org.bukkit.event.Listener;
+import org.bukkit.generator.ChunkGenerator;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class Builddit extends JavaPlugin implements Listener {
@@ -26,6 +28,10 @@ public class Builddit extends JavaPlugin implements Listener {
 	public static Builddit getInstance() {
 		if (instance == null) { instance = new Builddit(); }
 		return instance;
+	}
+
+	public ChunkGenerator getDefaultWorldGenerator(String worldname, String id) {
+		return (new PlotGenerator());
 	}
 }
 
