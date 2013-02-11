@@ -50,7 +50,10 @@ public class PlotHelper {
 				((modulus((czz+lz), plotSize) == plotSize - 1) || (modulus((czz+lz), plotSize) == plotSize - 2 - PlotConfiguration.intRoadWidth))
 			)
 		{
-			return true;
+			// Wall also should not run on top of road
+			if (!isRoad(cxx, czz, lx, lz)) {
+				return true;
+			}
 		}
 		return false;
 	}
