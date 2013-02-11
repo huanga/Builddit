@@ -2,7 +2,7 @@ author: Andy Huang (huang_a @ chiisana.net)
 database: false
 main: net.chiisana.builddit.Builddit
 name: Builddit
-startup: postworld
+load: STARTUP
 url: http://mc.chiisana.net/
 version: '1.0'
 
