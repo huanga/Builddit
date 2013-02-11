@@ -23,7 +23,7 @@ public class PlotHelper {
 		int plotSize = PlotConfiguration.intPlotSize + PlotConfiguration.intRoadWidth + 2;  // +2 for wall
 		if  (
 				((((cxx+lx) % plotSize) < plotSize - 1) && (((cxx+lx) % plotSize) > plotSize - 1 - PlotConfiguration.intRoadWidth))
-				&&
+				||
 				((((czz+lz) % plotSize) < plotSize - 1) && (((czz+lz) % plotSize) > plotSize - 1 - PlotConfiguration.intRoadWidth))
 			)
 		{
@@ -46,7 +46,7 @@ public class PlotHelper {
 		int plotSize = PlotConfiguration.intPlotSize + PlotConfiguration.intRoadWidth + 2;  // +2 for wall
 		if  (
 				((((cxx+lx) % plotSize) == plotSize - 1) || (((cxx+lx) % plotSize) == plotSize - 1 - PlotConfiguration.intRoadWidth))
-				&&
+				||
 				((((czz+lz) % plotSize) == plotSize - 1) || (((czz+lz) % plotSize) == plotSize - 1 - PlotConfiguration.intRoadWidth))
 			)
 		{
