@@ -22,9 +22,9 @@ public class PlotHelper {
 	public static boolean isRoad(int cxx, int czz, int lx, int lz) {
 		int plotSize = PlotConfiguration.intPlotSize + PlotConfiguration.intRoadWidth + 2;  // +2 for wall
 		if  (
-				((modulus((cxx+lx), plotSize) < plotSize - 1) && (modulus((cxx+lx), plotSize) > plotSize - 1 - PlotConfiguration.intRoadWidth))
+				((modulus((cxx+lx), plotSize) < plotSize - 1) && (modulus((cxx+lx), plotSize) > plotSize - 2 - PlotConfiguration.intRoadWidth))
 				||
-				((modulus((czz+lz), plotSize) < plotSize - 1) && (modulus((czz+lz), plotSize) > plotSize - 1 - PlotConfiguration.intRoadWidth))
+				((modulus((czz+lz), plotSize) < plotSize - 1) && (modulus((czz+lz), plotSize) > plotSize - 2 - PlotConfiguration.intRoadWidth))
 			)
 		{
 			return true;
@@ -45,9 +45,9 @@ public class PlotHelper {
 	public static boolean isWall(int cxx, int czz, int lx, int lz) {
 		int plotSize = PlotConfiguration.intPlotSize + PlotConfiguration.intRoadWidth + 2;  // +2 for wall
 		if  (
-				((modulus((cxx+lx), plotSize) == plotSize - 1) || (modulus((cxx+lx), plotSize) == plotSize - 1 - PlotConfiguration.intRoadWidth))
+				((modulus((cxx+lx), plotSize) == plotSize - 1) || (modulus((cxx+lx), plotSize) == plotSize - 2 - PlotConfiguration.intRoadWidth))
 				||
-				((modulus((czz+lz), plotSize) == plotSize - 1) || (modulus((czz+lz), plotSize) == plotSize - 1 - PlotConfiguration.intRoadWidth))
+				((modulus((czz+lz), plotSize) == plotSize - 1) || (modulus((czz+lz), plotSize) == plotSize - 2 - PlotConfiguration.intRoadWidth))
 			)
 		{
 			return true;
