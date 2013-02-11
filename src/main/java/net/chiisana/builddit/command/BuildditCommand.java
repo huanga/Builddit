@@ -1,20 +1,10 @@
 package net.chiisana.builddit.command;
 
-import com.sk89q.worldedit.*;
-import com.sk89q.worldedit.data.DataException;
-import com.sk89q.worldedit.regions.RegionSelector;
-import com.sk89q.worldedit.schematic.SchematicFormat;
-import net.chiisana.builddit.Builddit;
 import org.bukkit.ChatColor;
-import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-
-import java.io.File;
-import java.io.IOException;
-import java.util.logging.Level;
 
 public class BuildditCommand implements CommandExecutor {
 

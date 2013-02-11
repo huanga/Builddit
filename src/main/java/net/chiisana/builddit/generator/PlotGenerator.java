@@ -33,27 +33,27 @@ public class PlotGenerator extends ChunkGenerator {
 		int cxx = cx << 4;
 		int czz = cz << 4;
 
-		short[][] result = new short[world.getMaxHeight()/16][];
+		short[][] result = new short[world.getMaxHeight() / 16][];
 		for (int x = 0; x < 16; x++) {
 			for (int z = 0; z < 16; z++) {
 				for (int y = 0; y < height; y++) {
 					if (y == 0) {
 						// Base Layer
-						setBlock(result, x, y, z, (short)PlotConfiguration.materialBase.getId());
+						setBlock(result, x, y, z, (short) PlotConfiguration.materialBase.getId());
 					} else if (y <= PlotConfiguration.intPlotHeight - 1) {
 						// Foundation Layer
-						setBlock(result, x, y, z, (short)PlotConfiguration.materialPlotFoundation.getId());
+						setBlock(result, x, y, z, (short) PlotConfiguration.materialPlotFoundation.getId());
 					} else if (y == PlotConfiguration.intPlotHeight) {
 						// Surface|Road Layer
 						if (PlotHelper.isRoad(cxx, czz, x, z)) {
-							setBlock(result, x, y, z, (short)PlotConfiguration.materialRoadA.getId());
+							setBlock(result, x, y, z, (short) PlotConfiguration.materialRoadA.getId());
 						} else {
-							setBlock(result, x, y, z, (short)PlotConfiguration.materialPlotSurface.getId());
+							setBlock(result, x, y, z, (short) PlotConfiguration.materialPlotSurface.getId());
 						}
 					} else if (y == PlotConfiguration.intPlotHeight + 1) {
 						// Wall Layer
 						if (PlotHelper.isWall(cxx, czz, x, z)) {
-							setBlock(result, x, y, z, (short)PlotConfiguration.materialWall.getId());
+							setBlock(result, x, y, z, (short) PlotConfiguration.materialWall.getId());
 						}
 					}
 				}

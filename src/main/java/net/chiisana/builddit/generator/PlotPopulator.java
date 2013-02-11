@@ -42,8 +42,7 @@ public class PlotPopulator extends BlockPopulator {
 		}
 	}
 
-	private void setBlockData(World w, int x, int y, int z, byte blkData)
-	{
+	private void setBlockData(World w, int x, int y, int z, byte blkData) {
 		if (blkData != 0) {
 			w.getBlockAt(x, y, z).setData(blkData);
 		}

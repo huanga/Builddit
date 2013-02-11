@@ -1,9 +1,8 @@
 package net.chiisana.builddit;
 
+import net.chiisana.builddit.generator.PlotHelper;
 import org.junit.Assert;
 import org.junit.Test;
-
-import net.chiisana.builddit.generator.PlotHelper;
 
 public class ModulusTest {
 	@Test
