@@ -30,8 +30,8 @@ public class PlotGenerator extends ChunkGenerator {
 	public short[][] generateExtBlockSections(World world, Random random, int cx, int cz, BiomeGrid biomes) {
 
 		int height = PlotConfiguration.intPlotHeight + 2;
-		int cxx = StrictMath.abs(cx << 4);
-		int czz = StrictMath.abs(cz << 4);
+		int cxx = cx << 4;
+		int czz = cz << 4;
 
 		short[][] result = new short[world.getMaxHeight()/16][];
 		for (int x = 0; x < 16; x++) {

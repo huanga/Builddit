@@ -11,12 +11,12 @@ import java.util.Random;
 public class PlotPopulator extends BlockPopulator {
 	@Override
 	public void populate(World world, Random random, Chunk chunk) {
-		int cxx = StrictMath.abs(chunk.getX() << 4);
-		int czz = StrictMath.abs(chunk.getZ() << 4);
+		int cxx = chunk.getX() << 4;
+		int czz = chunk.getZ() << 4;
 
 		for (int x = 0; x < 16; x++) {
 			for (int z = 0; z < 16; z++) {
-				world.setBiome(x + (chunk.getX() << 4), z + (chunk.getZ() << 4), Biome.PLAINS);
+				world.setBiome(x + cxx, z + czz, Biome.PLAINS);
 				for (int y = 0; y < PlotConfiguration.intPlotHeight + 2; y++) {
 					if (y == 0) {
 						// Base Layer
