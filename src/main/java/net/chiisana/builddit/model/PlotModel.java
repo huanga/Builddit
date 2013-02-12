@@ -3,7 +3,8 @@ package net.chiisana.builddit.model;
 import java.util.HashSet;
 
 public class PlotModel {
-	public String owner;
+
+	private String owner;
 
 	private HashSet<String> authorized = new HashSet<String>();
 
@@ -11,15 +12,27 @@ public class PlotModel {
 		this.owner = "";
 	}
 
-	public void addAuthorized(String user) {
+	public String getOwner() {
+		return owner;
+	}
+
+	public void setOwner(String owner) {
+		this.owner = owner;
+	}
+
+	public boolean isOwned() {
+		return (this.owner.equals(""));
+	}
+
+	public void authorize(String user) {
 		this.authorized.add(user);
 	}
 
-	public void removeAuthorized(String user) {
+	public void unauthorize(String user) {
 		this.authorized.remove(user);
 	}
 
-	public boolean isAuthorized(String user) {
-		return this.authorized.contains(user);
+	public boolean isAuthorizedFor(String user) {
+		return (this.authorized.contains(user) || this.owner.equals(user));
 	}
 }

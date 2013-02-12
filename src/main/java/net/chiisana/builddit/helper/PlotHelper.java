@@ -1,6 +1,7 @@
 package net.chiisana.builddit.helper;
 
 import net.chiisana.builddit.model.PlotConfiguration;
+import org.bukkit.Location;
 
 /**
  * Created with IntelliJ IDEA.
@@ -31,6 +32,10 @@ public class PlotHelper {
 		return false;
 	}
 
+	public static boolean isRoad(int x, int z) {
+		return isRoad(0,0,x,z);
+	}
+
 	/*
 	boolean isWall(int cxx, int czz, int lx, int lz)
 		input:  cxx - chunk x << 4
@@ -56,7 +61,27 @@ public class PlotHelper {
 		return false;
 	}
 
+	public static boolean isWall(int x, int z) {
+		return isWall(0,0,x,z);
+	}
+
 	public static int modulus(int n, int m) {
 		return (n < 0) ? (m - (StrictMath.abs(n) % m)) % m : (n % m);
+	}
+
+	public static int getPX(Location location) {
+		if (location.getX() >= 0) {
+			return ((int)StrictMath.ceil(location.getX()/(PlotConfiguration.intPlotSize+PlotConfiguration.intRoadWidth+2)));
+		} else {
+			return ((int)StrictMath.floor(location.getX()/(PlotConfiguration.intPlotSize+PlotConfiguration.intRoadWidth+2)));
+		}
+	}
+
+	public static int getPZ(Location location) {
+		if (location.getZ() >= 0) {
+			return ((int)StrictMath.ceil(location.getZ()/(PlotConfiguration.intPlotSize+PlotConfiguration.intRoadWidth+2)));
+		} else {
+			return ((int)StrictMath.floor(location.getZ()/(PlotConfiguration.intPlotSize+PlotConfiguration.intRoadWidth+2)));
+		}
 	}
 }
