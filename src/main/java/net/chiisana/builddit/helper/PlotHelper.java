@@ -3,12 +3,6 @@ package net.chiisana.builddit.helper;
 import net.chiisana.builddit.model.PlotConfiguration;
 import org.bukkit.Location;
 
-/**
- * Created with IntelliJ IDEA.
- * User: andy
- * Date: 2013-02-10
- * Time: 5:01 PM
- */
 public class PlotHelper {
 	/*
 	boolean isRoad(int cxx, int czz, int lx, int lz)
