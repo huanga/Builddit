@@ -131,20 +131,13 @@ public class Plot {
 			Location location1 = this.getBottom();
 			Location location2 = this.getTop();
 
-			Builddit.getInstance().getLogger().log(Level.INFO, "Got location1 at: " + location1.toString());
-			Builddit.getInstance().getLogger().log(Level.INFO, "Got location2 at: " + location2.toString());
-
 			Vector vPos1 = new Vector(location1.getX(), location1.getY(), location1.getZ());
 			Vector vPos2 = new Vector(location2.getX(), location2.getY(), location2.getZ());
-
-			Builddit.getInstance().getLogger().log(Level.INFO, "vPos1 at: " + vPos1.toString());
-			Builddit.getInstance().getLogger().log(Level.INFO, "vPos2 at: " + vPos2.toString());
 
 			LocalSession session = weAPI.getSession(clearer);
 			EditSession editSession = session.createEditSession(player);
 			RegionSelector regionSelector = session.getRegionSelector(editSession.getWorld());
 
-			Builddit.getInstance().getLogger().log(Level.INFO, "editWorld: " + editSession.getWorld().toString());
 			regionSelector.selectPrimary(vPos1);
 			regionSelector.explainPrimarySelection(player, session, vPos1);
 			regionSelector.selectSecondary(vPos2);
@@ -152,7 +145,7 @@ public class Plot {
 
 			try {
 				// Note: Lifted code from WorldEdit as there is no API for regenerating a selection
-				Region region = regionSelector.getRegion();
+				Region region = session.getSelection(player.getWorld());
 				Mask mask = session.getMask();
 				session.setMask(null);
 				player.getWorld().regenerate(region, editSession);
