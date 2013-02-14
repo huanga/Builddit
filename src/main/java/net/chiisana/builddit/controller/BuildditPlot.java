@@ -87,7 +87,8 @@ public class BuildditPlot {
 
 	private Plot _getPlotAt(World world, int px, int pz, String plotID) {
 		try {
-			return plotHashMap.get(plotID);
+			Plot plot = plotHashMap.get(plotID);
+			return plot;
 		} catch (NullPointerException npe) {
 			// We don't know about this plot yet, create it
 			Plot plot = new Plot();
