@@ -9,3 +9,5 @@ version: '1.0'
 commands:
   builddit:
     description: generate schematic download link for plot you're standing on.
+  plot:
+    description: plot related commands.
