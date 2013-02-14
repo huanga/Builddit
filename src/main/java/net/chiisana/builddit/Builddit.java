@@ -41,15 +41,16 @@ public class Builddit extends JavaPlugin implements Listener {
 				this.getConfig().getString("MySQL.User", "user"),
 				this.getConfig().getString("MySQL.Pass", "pass1234")
 		);
+
+		// save our configuration data in case if it is first run
+		this._saveConfig();
+
 		if (!this.database.openConnection()) {
 			getLogger().log(Level.SEVERE, "Database Connection Failed! Plugin Cannot Initiate!!");
 			getLogger().log(Level.SEVERE, "Builddit is disabling!");
 			this.setEnabled(false);
 			return;
 		}
-
-		// save our configuration data in case if it is first run
-		this._saveConfig();
 
 		getCommand("builddit").setExecutor(new BuildditCommand());
 		getCommand("plot").setExecutor(new PlotCommand());
