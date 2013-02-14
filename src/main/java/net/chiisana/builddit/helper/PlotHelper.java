@@ -1,7 +1,10 @@
 package net.chiisana.builddit.helper;
 
+import net.chiisana.builddit.Builddit;
 import net.chiisana.builddit.model.PlotConfiguration;
 import org.bukkit.Location;
+
+import java.util.logging.Level;
 
 public class PlotHelper {
 	/*
@@ -64,18 +67,24 @@ public class PlotHelper {
 	}
 
 	public static int getPX(Location location) {
+		int px;
 		if (location.getX() >= 0) {
-			return ((int)StrictMath.ceil(location.getX()/(PlotConfiguration.intPlotSize+PlotConfiguration.intRoadWidth+2)));
+			px = (int)StrictMath.ceil(location.getX()/PlotConfiguration.intPlotCalculatedSize);
 		} else {
-			return ((int)StrictMath.floor(location.getX()/(PlotConfiguration.intPlotSize+PlotConfiguration.intRoadWidth+2)));
+			px = ((int)StrictMath.floor(location.getX()/PlotConfiguration.intPlotCalculatedSize));
 		}
+		Builddit.getInstance().getLogger().log(Level.INFO, "px: " + px);
+		return px;
 	}
 
 	public static int getPZ(Location location) {
+		int pz;
 		if (location.getZ() >= 0) {
-			return ((int)StrictMath.ceil(location.getZ()/(PlotConfiguration.intPlotSize+PlotConfiguration.intRoadWidth+2)));
+			pz = ((int)StrictMath.ceil(location.getZ()/PlotConfiguration.intPlotCalculatedSize));
 		} else {
-			return ((int)StrictMath.floor(location.getZ()/(PlotConfiguration.intPlotSize+PlotConfiguration.intRoadWidth+2)));
+			pz = ((int)StrictMath.floor(location.getZ()/PlotConfiguration.intPlotCalculatedSize));
 		}
+		Builddit.getInstance().getLogger().log(Level.INFO, "pz: " + pz);
+		return pz;
 	}
 }
