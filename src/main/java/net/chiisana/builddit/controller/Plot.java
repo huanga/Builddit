@@ -131,8 +131,14 @@ public class Plot {
 			Location location1 = this.getBottom();
 			Location location2 = this.getTop();
 
+			Builddit.getInstance().getLogger().log(Level.INFO, "Got location1 at: " + location1.toString());
+			Builddit.getInstance().getLogger().log(Level.INFO, "Got location2 at: " + location2.toString());
+
 			Vector vPos1 = new Vector(location1.getX(), location1.getY(), location1.getZ());
 			Vector vPos2 = new Vector(location2.getX(), location2.getY(), location2.getZ());
+
+			Builddit.getInstance().getLogger().log(Level.INFO, "vPos1 at: " + vPos1.toString());
+			Builddit.getInstance().getLogger().log(Level.INFO, "vPos2 at: " + vPos2.toString());
 
 			LocalSession session = weAPI.getSession(clearer);
 			EditSession editSession = session.createEditSession(player);
