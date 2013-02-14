@@ -100,6 +100,6 @@ public class Plot {
 	}
 
 	public void clear() {
-		// Do something to wipe the contents.
+		// TODO: Do something to wipe the contents.
 	}
 }
