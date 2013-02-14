@@ -9,6 +9,19 @@ public class Plot {
 		this.model = new PlotModel();
 	}
 
+	public int getPlotX() {
+		return this.model.getPlotX();
+	}
+
+	public int getPlotZ() {
+		return this.model.getPlotZ();
+	}
+
+	public void setPlotXZ(int plotX, int plotZ) {
+		this.model.setPlotX(plotX);
+		this.model.setPlotZ(plotZ);
+	}
+
 	public boolean claim(String owner) {
 		if (this.isOwned())
 		{

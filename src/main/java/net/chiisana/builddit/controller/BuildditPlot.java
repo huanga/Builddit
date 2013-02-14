@@ -12,6 +12,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;
 
 import java.util.HashMap;
+import java.util.logging.Level;
 
 public class BuildditPlot {
 	private static BuildditPlot instance;
@@ -65,15 +66,29 @@ public class BuildditPlot {
 	}
 
 	public Plot getPlotAt(int px, int pz) {
-		return (getPlotAt(px + "." + pz));
+		return (this._getPlotAt(px, pz, px + "." + pz));
 	}
 
+	@Deprecated
 	public Plot getPlotAt(String plotID) {
+		try {
+			String plotCoords[] = plotID.split(".");
+			int px = Integer.parseInt(plotCoords[0]);
+			int pz = Integer.parseInt(plotCoords[1]);
+			return (this._getPlotAt(px, pz, plotID));
+		} catch (Exception ex) {
+			Builddit.getInstance().getLogger().log(Level.WARNING, "Invalid plotID given for deprecated function getPlotAt(String plotID)");
+			return null;
+		}
+	}
+
+	private Plot _getPlotAt(int px, int pz, String plotID) {
 		try {
 			return plotHashMap.get(plotID);
 		} catch (NullPointerException npe) {
 			// We don't know about this plot yet, create it
 			Plot plot = new Plot();
+			plot.setPlotXZ(px, pz);
 			plotHashMap.put(plotID, plot);
 			return plot;
 		}

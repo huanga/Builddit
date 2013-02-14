@@ -8,6 +8,9 @@ public class PlotModel {
 
 	private HashSet<String> authorized = new HashSet<String>();
 
+	private int plotX;
+	private int plotZ;
+
 	public PlotModel() {
 		this.owner = "";
 	}
@@ -22,6 +25,22 @@ public class PlotModel {
 
 	public boolean isOwned() {
 		return (this.owner.equals(""));
+	}
+
+	public int getPlotX() {
+		return plotX;
+	}
+
+	public void setPlotX(int plotX) {
+		this.plotX = plotX;
+	}
+
+	public int getPlotZ() {
+		return plotZ;
+	}
+
+	public void setPlotZ(int plotZ) {
+		this.plotZ = plotZ;
 	}
 
 	public void authorize(String user) {
