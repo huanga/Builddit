@@ -94,6 +94,7 @@ public class BuildditPlot {
 			// We don't know about this plot yet, create it
 			Plot plot = new Plot();
 			plot.setPlotXZ(px, pz);
+			plot.setWorld(world);
 			plotHashMap.put(plotID, plot);
 			return plot;
 		}

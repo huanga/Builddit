@@ -10,6 +10,7 @@ import net.chiisana.builddit.Builddit;
 import net.chiisana.builddit.model.PlotConfiguration;
 import net.chiisana.builddit.model.PlotModel;
 import org.bukkit.Location;
+import org.bukkit.World;
 import org.bukkit.entity.Player;
 
 public class Plot {
@@ -32,9 +33,17 @@ public class Plot {
 		this.model.setPlotZ(plotZ);
 	}
 
+	public void setWorld(World world) {
+		this.model.setWorld(world);
+	}
+
+	public World getWorld() {
+		return this.model.getWorld();
+	}
+
 	public Location getBottom() {
 		return(new Location(
-					this.model.getWorld(),
+					this.getWorld(),
 					this.getPlotX() * PlotConfiguration.intPlotCalculatedSize,
 					0,
 					this.getPlotZ() * PlotConfiguration.intPlotCalculatedSize
@@ -43,9 +52,9 @@ public class Plot {
 
 	public Location getTop() {
 		return(new Location(
-					this.model.getWorld(),
+					this.getWorld(),
 					((this.getPlotX()+1) * PlotConfiguration.intPlotCalculatedSize) - 1,
-					this.model.getWorld().getMaxHeight(),
+					this.getWorld().getMaxHeight(),
 					((this.getPlotZ()+1) * PlotConfiguration.intPlotCalculatedSize) - 1
 		));
 	}
