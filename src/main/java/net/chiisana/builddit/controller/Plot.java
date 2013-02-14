@@ -52,7 +52,6 @@ public class Plot {
 					0,
 					zCord * PlotConfiguration.intPlotCalculatedSize
 		);
-		Builddit.getInstance().getLogger().log(Level.INFO, "Bottom identified at: " + location.toString());
 		return location;
 	}
 
@@ -65,7 +64,6 @@ public class Plot {
 					this.getWorld().getMaxHeight(),
 					((zCord+1) * PlotConfiguration.intPlotCalculatedSize) - 1
 		);
-		Builddit.getInstance().getLogger().log(Level.INFO, "Top identified at: " + location.toString());
 		return location;
 	}
 
