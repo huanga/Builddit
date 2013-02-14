@@ -50,7 +50,7 @@ public class Builddit extends JavaPlugin implements Listener {
 			return;
 		}
 
-		// One tick later (should only happen after worlds are loaded)
+		// One second later (should only happen after worlds are loaded)
 		getServer().getScheduler().scheduleSyncDelayedTask(this, new DelayedInitTask(), 20L);
 	}
 
