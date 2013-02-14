@@ -1,10 +1,7 @@
 package net.chiisana.builddit.helper;
 
-import net.chiisana.builddit.Builddit;
 import net.chiisana.builddit.model.PlotConfiguration;
 import org.bukkit.Location;
-
-import java.util.logging.Level;
 
 public class PlotHelper {
 	/*
