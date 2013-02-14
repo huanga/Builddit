@@ -8,6 +8,7 @@ import net.chiisana.builddit.listener.PlotEntityListener;
 import net.chiisana.builddit.listener.PlotHangingListener;
 import net.chiisana.builddit.listener.PlotPlayerListener;
 import org.bukkit.Location;
+import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;
 
@@ -62,27 +63,29 @@ public class BuildditPlot {
 	}
 
 	public Plot getPlotAt(Location location) {
-		return (getPlotAt(PlotHelper.getPX(location), PlotHelper.getPZ(location)));
+		return (getPlotAt(location.getWorld(), PlotHelper.getPX(location), PlotHelper.getPZ(location)));
 	}
 
-	public Plot getPlotAt(int px, int pz) {
-		return (this._getPlotAt(px, pz, px + "." + pz));
+	public Plot getPlotAt(World world, int px, int pz) {
+		return (this._getPlotAt(world, px, pz, world.getName() + "." + px + "." + pz));
 	}
 
 	@Deprecated
 	public Plot getPlotAt(String plotID) {
 		try {
 			String plotCoords[] = plotID.split(".");
-			int px = Integer.parseInt(plotCoords[0]);
-			int pz = Integer.parseInt(plotCoords[1]);
-			return (this._getPlotAt(px, pz, plotID));
+			String worldName = plotCoords[0];
+			int px = Integer.parseInt(plotCoords[1]);
+			int pz = Integer.parseInt(plotCoords[2]);
+			World world = Builddit.getInstance().getServer().getWorld(worldName);
+			return (this._getPlotAt(world, px, pz, plotID));
 		} catch (Exception ex) {
 			Builddit.getInstance().getLogger().log(Level.WARNING, "Invalid plotID given for deprecated function getPlotAt(String plotID)");
 			return null;
 		}
 	}
 
-	private Plot _getPlotAt(int px, int pz, String plotID) {
+	private Plot _getPlotAt(World world, int px, int pz, String plotID) {
 		try {
 			return plotHashMap.get(plotID);
 		} catch (NullPointerException npe) {

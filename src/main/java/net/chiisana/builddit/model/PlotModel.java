@@ -1,5 +1,7 @@
 package net.chiisana.builddit.model;
 
+import org.bukkit.World;
+
 import java.util.HashSet;
 
 public class PlotModel {
@@ -8,6 +10,7 @@ public class PlotModel {
 
 	private HashSet<String> authorized = new HashSet<String>();
 
+	private World world;
 	private int plotX;
 	private int plotZ;
 
@@ -41,6 +44,14 @@ public class PlotModel {
 
 	public void setPlotZ(int plotZ) {
 		this.plotZ = plotZ;
+	}
+
+	public void setWorld(World world) {
+		this.world = world;
+	}
+
+	public World getWorld() {
+		return this.world;
 	}
 
 	public void authorize(String user) {
