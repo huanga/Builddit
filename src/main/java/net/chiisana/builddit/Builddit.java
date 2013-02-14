@@ -3,6 +3,7 @@ package net.chiisana.builddit;
 import com.sk89q.worldedit.bukkit.WorldEditAPI;
 import com.sk89q.worldedit.bukkit.WorldEditPlugin;
 import net.chiisana.builddit.command.BuildditCommand;
+import net.chiisana.builddit.command.PlotCommand;
 import net.chiisana.builddit.controller.BuildditPlot;
 import net.chiisana.builddit.generator.PlotGenerator;
 import net.chiisana.util.MySQLUtil;
@@ -51,6 +52,7 @@ public class Builddit extends JavaPlugin implements Listener {
 		this._saveConfig();
 
 		getCommand("builddit").setExecutor(new BuildditCommand());
+		getCommand("plot").setExecutor(new PlotCommand());
 
 		BuildditPlot.getInstance().onEnable();
 	}
