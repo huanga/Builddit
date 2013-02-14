@@ -95,14 +95,7 @@ public class PlotCommand implements CommandExecutor {
 				}
 
 				String target = args[1];
-				if(player.hasPermission("builddit.admin"))
-				{
-					currentPlot.authorize(target, true);
-					player.sendMessage(target + " has been added to the authorized users list.");
-					return true;
-				}
-
-				if (currentPlot.authorize(target, player.getName()))
+				if (currentPlot.authorize(target, player))
 				{
 					player.sendMessage(target + " has been added to the authorized users list.");
 					return true;
@@ -120,13 +113,7 @@ public class PlotCommand implements CommandExecutor {
 				}
 
 				String target = args[1];
-				if (player.hasPermission("builddit.admin"))
-				{
-					currentPlot.unauthorize(target, true);
-					player.sendMessage(target + " has been removed from the authorized users list.");
-				}
-
-				if (currentPlot.unauthorize(target, player.getName()))
+				if (currentPlot.unauthorize(target, player))
 				{
 					player.sendMessage(target + " has been removed from the authorized users list.");
 					return true;
@@ -141,13 +128,7 @@ public class PlotCommand implements CommandExecutor {
 
 	private String _unclaim(Plot plot, Player player) {
 		// Unclaiming is a bit less straight forward: only allow if player owns it or is admin
-		if (player.hasPermission("builddit.admin"))
-		{
-			plot.unclaim();
-			return "You have successfully unclaimed the plot.";
-		}
-
-		if (plot.unclaim(player.getName()))
+		if (plot.unclaim(player))
 		{
 			return "You have successfully unclaimed the plot.";
 		} else {
@@ -157,13 +138,7 @@ public class PlotCommand implements CommandExecutor {
 
 	private String _clear(Plot plot, Player player) {
 		// Clearing the plot: only allow if player owns it or is admin
-		if (player.hasPermission("builddit.admin"))
-		{
-			plot.clear();
-			return "Plot content have been cleared.";
-		}
-
-		if (plot.clear(player.getName()))
+		if (plot.clear(player))
 		{
 			return "Plot content have been cleared.";
 		} else {

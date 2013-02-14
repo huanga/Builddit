@@ -8,6 +8,8 @@ public class PlotConfiguration {
 	public static int intPlotHeight = 64;
 	public static int intRoadWidth = 5;
 
+	public static int intPlotCalculatedSize = intPlotSize + intRoadWidth + 2;   // 2 for walls; 1 on each side
+
 	public static Material materialRoadA = Material.WOOD;
 	public static byte byteMaterialRoadAData = 0;
 
