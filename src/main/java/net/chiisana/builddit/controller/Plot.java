@@ -143,6 +143,9 @@ public class Plot {
 			LocalSession session = weAPI.getSession(clearer);
 			EditSession editSession = session.createEditSession(player);
 			RegionSelector regionSelector = session.getRegionSelector(editSession.getWorld());
+
+			Builddit.getInstance().getLogger().log(Level.INFO, "editWorld: " + editSession.getWorld().toString());
+
 			regionSelector.explainPrimarySelection(player, session, vPos1);
 			regionSelector.explainSecondarySelection(player, session, vPos2);
 
