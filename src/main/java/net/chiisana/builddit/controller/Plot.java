@@ -145,8 +145,9 @@ public class Plot {
 			RegionSelector regionSelector = session.getRegionSelector(editSession.getWorld());
 
 			Builddit.getInstance().getLogger().log(Level.INFO, "editWorld: " + editSession.getWorld().toString());
-
+			regionSelector.selectPrimary(vPos1);
 			regionSelector.explainPrimarySelection(player, session, vPos1);
+			regionSelector.selectSecondary(vPos2);
 			regionSelector.explainSecondarySelection(player, session, vPos2);
 
 			try {
