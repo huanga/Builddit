@@ -33,6 +33,8 @@ public class BuildditPlot {
 	}
 
 	public void onEnable() {
+		this.plotHashMap = new HashMap();
+
 		this.blockListener = new PlotBlockListener();
 		this.entityListener = new PlotEntityListener();
 		this.hangingListener = new PlotHangingListener();
@@ -54,6 +56,8 @@ public class BuildditPlot {
 		this.entityListener = null;
 		this.hangingListener = null;
 		this.playerListener = null;
+
+		this.plotHashMap = null;
 	}
 
 	public Plot getPlotAt(Location location) {
