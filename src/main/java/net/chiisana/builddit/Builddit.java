@@ -6,6 +6,7 @@ import net.chiisana.builddit.command.BuildditCommand;
 import net.chiisana.builddit.command.PlotCommand;
 import net.chiisana.builddit.controller.BuildditPlot;
 import net.chiisana.builddit.generator.PlotGenerator;
+import net.chiisana.builddit.task.DelayedInitTask;
 import net.chiisana.util.MySQLUtil;
 import org.bukkit.event.Listener;
 import org.bukkit.generator.ChunkGenerator;
@@ -30,9 +31,6 @@ public class Builddit extends JavaPlugin implements Listener {
 	public void onEnable() {
 		instance = this;
 
-		wePlugin = (WorldEditPlugin) getServer().getPluginManager().getPlugin("WorldEdit");
-		weAPI = new WorldEditAPI(wePlugin);
-
 		// Instantiate database connection
 		this.database = new MySQLUtil(
 				this.getConfig().getString("MySQL.Server", "127.0.0.1"),
@@ -51,6 +49,16 @@ public class Builddit extends JavaPlugin implements Listener {
 			this.setEnabled(false);
 			return;
 		}
+
+		// One tick later (should only happen after worlds are loaded)
+		getServer().getScheduler().scheduleSyncDelayedTask(this, new DelayedInitTask(), 20L);
+	}
+
+	public void initDelayed() {
+		getLogger().log(Level.INFO, "Initializing delayed initialization.");
+		// Register these after everything are loaded
+		wePlugin = (WorldEditPlugin) getServer().getPluginManager().getPlugin("WorldEdit");
+		weAPI = new WorldEditAPI(wePlugin);
 
 		getCommand("builddit").setExecutor(new BuildditCommand());
 
