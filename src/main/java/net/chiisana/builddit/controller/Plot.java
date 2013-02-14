@@ -44,22 +44,26 @@ public class Plot {
 	}
 
 	public Location getBottom() {
+		int xCord = this.getPlotX() > 0 ? this.getPlotX() - 1 : this.getPlotX();    // We don't actually have 0
+		int zCord = this.getPlotZ() > 0 ? this.getPlotZ() - 1 : this.getPlotZ();
 		Location location = new Location(
 					this.getWorld(),
-					this.getPlotX() * PlotConfiguration.intPlotCalculatedSize,
+					xCord  * PlotConfiguration.intPlotCalculatedSize,
 					0,
-					this.getPlotZ() * PlotConfiguration.intPlotCalculatedSize
+					zCord * PlotConfiguration.intPlotCalculatedSize
 		);
 		Builddit.getInstance().getLogger().log(Level.INFO, "Bottom identified at: " + location.toString());
 		return location;
 	}
 
 	public Location getTop() {
+		int xCord = this.getPlotX() > 0 ? this.getPlotX() - 1 : this.getPlotX();    // We don't actually have 0
+		int zCord = this.getPlotZ() > 0 ? this.getPlotZ() - 1 : this.getPlotZ();
 		Location location = new Location(
 					this.getWorld(),
-					((this.getPlotX()+1) * PlotConfiguration.intPlotCalculatedSize) - 1,
+					((xCord+1) * PlotConfiguration.intPlotCalculatedSize) - 1,
 					this.getWorld().getMaxHeight(),
-					((this.getPlotZ()+1) * PlotConfiguration.intPlotCalculatedSize) - 1
+					((zCord+1) * PlotConfiguration.intPlotCalculatedSize) - 1
 		);
 		Builddit.getInstance().getLogger().log(Level.INFO, "Top identified at: " + location.toString());
 		return location;
