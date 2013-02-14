@@ -53,9 +53,10 @@ public class Builddit extends JavaPlugin implements Listener {
 		}
 
 		getCommand("builddit").setExecutor(new BuildditCommand());
-		getCommand("plot").setExecutor(new PlotCommand());
 
+		// Enable BuildditPlot
 		BuildditPlot.getInstance().onEnable();
+		getCommand("plot").setExecutor(new PlotCommand());
 	}
 
 	public static Builddit getInstance() {
