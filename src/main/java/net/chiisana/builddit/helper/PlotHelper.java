@@ -73,7 +73,6 @@ public class PlotHelper {
 		} else {
 			px = ((int)StrictMath.floor(location.getX()/PlotConfiguration.intPlotCalculatedSize));
 		}
-		Builddit.getInstance().getLogger().log(Level.INFO, "px: " + px);
 		return px;
 	}
 
@@ -84,7 +83,6 @@ public class PlotHelper {
 		} else {
 			pz = ((int)StrictMath.floor(location.getZ()/PlotConfiguration.intPlotCalculatedSize));
 		}
-		Builddit.getInstance().getLogger().log(Level.INFO, "pz: " + pz);
 		return pz;
 	}
 }
