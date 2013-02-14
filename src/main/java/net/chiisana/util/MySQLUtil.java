@@ -41,7 +41,7 @@ public class MySQLUtil {
 	public ResultSet runSelectQuery(String Query, boolean isRetry) {
 		try {
 			if ((this.conn == null) || (this.conn.isClosed())) {
-				// Connection not instanciated
+				// Connection not instantiated
 				if (!this.openConnection()) {
 					return null;    // sorry captain, can't talk to the database
 				}
@@ -68,7 +68,7 @@ public class MySQLUtil {
 	public int runUpdateQuery(String Query, boolean isRetry) {
 		try {
 			if ((this.conn == null) || (this.conn.isClosed())) {
-				// Connection not instanciated
+				// Connection not instantiated
 				if (!this.openConnection()) {
 					return -1;    // sorry captain, can't talk to the database
 				}
