@@ -27,7 +27,7 @@ public class PlotModel {
 	}
 
 	public boolean isOwned() {
-		return (this.owner.equals(""));
+		return (!this.owner.equals(""));
 	}
 
 	public int getPlotX() {
