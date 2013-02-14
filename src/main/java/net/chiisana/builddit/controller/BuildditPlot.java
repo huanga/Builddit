@@ -86,10 +86,11 @@ public class BuildditPlot {
 	}
 
 	private Plot _getPlotAt(World world, int px, int pz, String plotID) {
-		try {
+		if (plotHashMap.containsKey(plotID))
+		{
 			Plot plot = plotHashMap.get(plotID);
 			return plot;
-		} catch (NullPointerException npe) {
+		} else {
 			// We don't know about this plot yet, create it
 			Plot plot = new Plot();
 			plot.setPlotXZ(px, pz);
