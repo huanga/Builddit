@@ -13,8 +13,6 @@ import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 
-import java.util.logging.Level;
-
 public class Plot {
 	private PlotModel model;
 

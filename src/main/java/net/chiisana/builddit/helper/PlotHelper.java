@@ -18,9 +18,9 @@ public class PlotHelper {
 		int plotSize = PlotConfiguration.intPlotSize + PlotConfiguration.intRoadWidth + 2;  // +2 for wall
 		if (
 				((modulus((cxx + lx), plotSize) < plotSize - 1) && (modulus((cxx + lx), plotSize) > plotSize - 2 - PlotConfiguration.intRoadWidth))
-						||
-						((modulus((czz + lz), plotSize) < plotSize - 1) && (modulus((czz + lz), plotSize) > plotSize - 2 - PlotConfiguration.intRoadWidth))
-				) {
+				||
+				((modulus((czz + lz), plotSize) < plotSize - 1) && (modulus((czz + lz), plotSize) > plotSize - 2 - PlotConfiguration.intRoadWidth))
+			) {
 			return true;
 		}
 		return false;
@@ -44,9 +44,9 @@ public class PlotHelper {
 		int plotSize = PlotConfiguration.intPlotSize + PlotConfiguration.intRoadWidth + 2;  // +2 for wall
 		if (
 				((modulus((cxx + lx), plotSize) == plotSize - 1) || (modulus((cxx + lx), plotSize) == plotSize - 2 - PlotConfiguration.intRoadWidth))
-						||
-						((modulus((czz + lz), plotSize) == plotSize - 1) || (modulus((czz + lz), plotSize) == plotSize - 2 - PlotConfiguration.intRoadWidth))
-				) {
+				||
+				((modulus((czz + lz), plotSize) == plotSize - 1) || (modulus((czz + lz), plotSize) == plotSize - 2 - PlotConfiguration.intRoadWidth))
+			) {
 			// Wall also should not run on top of road
 			if (!isRoad(cxx, czz, lx, lz)) {
 				return true;

@@ -35,7 +35,7 @@ public class BuildditPlot {
 	}
 
 	public void onEnable() {
-		this.plotHashMap = new HashMap();
+		this.plotHashMap = new HashMap<String,Plot>();
 
 		this.blockListener = new PlotBlockListener();
 		this.entityListener = new PlotEntityListener();
@@ -86,13 +86,14 @@ public class BuildditPlot {
 	}
 
 	private Plot _getPlotAt(World world, int px, int pz, String plotID) {
+		Plot plot;
 		if (plotHashMap.containsKey(plotID))
 		{
-			Plot plot = plotHashMap.get(plotID);
+			plot = plotHashMap.get(plotID);
 			return plot;
 		} else {
 			// We don't know about this plot yet, create it
-			Plot plot = new Plot();
+			plot = new Plot();
 			plot.setPlotXZ(px, pz);
 			plot.setWorld(world);
 			plotHashMap.put(plotID, plot);
