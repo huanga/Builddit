@@ -6,13 +6,13 @@ public class MySQLUtil {
 	private Connection conn = null;
 	private String connectionString = null;
 
-	public MySQLUtil(String Server, int Port, String Database, String User, String Password) {
+	public MySQLUtil(String server, int port, String database, String user, String password) {
 		// Set Connection String
-		this.connectionString = "jdbc:mysql://" + Server
-				+ ":" + Port
-				+ "/" + Database
-				+ "?user=" + User
-				+ "&password=" + Password
+		this.connectionString = "jdbc:mysql://" + server
+				+ ":" + port
+				+ "/" + database
+				+ "?user=" + user
+				+ "&password=" + password
 				+ "&autoReconnect=true";
 	}
 
@@ -38,7 +38,7 @@ public class MySQLUtil {
 		}
 	}
 
-	public ResultSet runSelectQuery(String Query, boolean isRetry) {
+	public ResultSet runSelectQuery(String query, boolean isRetry) {
 		try {
 			if ((this.conn == null) || (this.conn.isClosed())) {
 				// Connection not instantiated
@@ -51,21 +51,21 @@ public class MySQLUtil {
 		}
 		try {
 			Statement stmt = this.conn.createStatement();
-			return stmt.executeQuery(Query);
+			return stmt.executeQuery(query);
 		} catch (Exception ex) {
 			if (isRetry) {
 				return null;
 			} else {
-				return (this.runSelectQuery(Query, true));
+				return (this.runSelectQuery(query, true));
 			}
 		}
 	}
 
-	public ResultSet runSelectQuery(String Query) {
-		return runSelectQuery(Query, false);
+	public ResultSet runSelectQuery(String query) {
+		return runSelectQuery(query, false);
 	}
 
-	public int runUpdateQuery(String Query, boolean isRetry) {
+	public int runUpdateQuery(String query, boolean isRetry) {
 		try {
 			if ((this.conn == null) || (this.conn.isClosed())) {
 				// Connection not instantiated
@@ -78,18 +78,18 @@ public class MySQLUtil {
 		}
 		try {
 			Statement stmt = this.conn.createStatement();
-			return stmt.executeUpdate(Query);
+			return stmt.executeUpdate(query);
 		} catch (Exception ex) {
 			if (isRetry) {
 				return -1;
 			} else {
-				return (this.runUpdateQuery(Query, true));
+				return (this.runUpdateQuery(query, true));
 			}
 		}
 	}
 
-	public int runUpdateQuery(String Query) {
-		return this.runUpdateQuery(Query, false);
+	public int runUpdateQuery(String query) {
+		return this.runUpdateQuery(query, false);
 	}
 
 	private void closeConnection() {
