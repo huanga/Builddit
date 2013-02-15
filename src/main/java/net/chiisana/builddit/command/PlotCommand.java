@@ -7,6 +7,8 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import java.util.HashSet;
+
 public class PlotCommand implements CommandExecutor {
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
@@ -120,6 +122,15 @@ public class PlotCommand implements CommandExecutor {
 				} else {
 					player.sendMessage("You do not own the plot, so you cannot modify the authorized users list.");
 					return true;
+				}
+			}
+			else if (subCmd.equalsIgnoreCase("test-connected"))
+			{
+				HashSet<Plot> connectedPlots = currentPlot.getConnectedPlots();
+				player.sendMessage("Connected Plots (" + connectedPlots.size() + "): ");
+				for(Plot plot : connectedPlots)
+				{
+					player.sendMessage(plot.toString());
 				}
 			}
 		}

@@ -199,4 +199,8 @@ public class Plot {
 
 		return currentSet;
 	}
+
+	public String toString() {
+		return ("BuildditPlot: " + this.getWorld() + "." + this.getPlotX() + "." + this.getPlotZ() + ":(" + this.getOwner() +  ")");
+	}
 }
