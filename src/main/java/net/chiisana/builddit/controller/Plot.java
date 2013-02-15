@@ -13,6 +13,8 @@ import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 
+import java.util.HashSet;
+
 public class Plot {
 	private PlotModel model;
 
@@ -152,10 +154,44 @@ public class Plot {
 				session.setMask(mask);
 				return true;
 			} catch (IncompleteRegionException e) {
-				// This should never happen.
+				// This should never happen as we've set vPos1 and vPos2 automatically in code.
 				return false;
 			}
 		}
 		return false;
+	}
+
+	public HashSet<Plot> getConnectedPlots() {
+		HashSet<Plot> connectedPlots = new HashSet<Plot>();
+		connectedPlots.add(this);
+		connectedPlots.addAll(getConnectedPlots(this));
+		return connectedPlots;
+	}
+
+	public HashSet<Plot> getConnectedPlots(Plot rootPlot) {
+		// Almost "flood fill" like algorithm to find connected plots
+		HashSet<Plot> connectedPlots = new HashSet<Plot>();
+		if (!this.getOwner().equals(rootPlot.getOwner()))
+		{
+			// This plot is not the same owner as the one we are checking for, return an empty set.
+			return connectedPlots;
+		}
+
+		// This plot is the same owner as the one we are checking for, add itself to the set
+		connectedPlots.add(this);
+
+		// Look at our west, east, north, and south neighbour...
+		Plot west = BuildditPlot.getInstance().getPlotAt(this.getWorld(), this.getPlotX()-1, this.getPlotZ());
+		Plot east = BuildditPlot.getInstance().getPlotAt(this.getWorld(), this.getPlotX()+1, this.getPlotZ());
+		Plot north = BuildditPlot.getInstance().getPlotAt(this.getWorld(), this.getPlotX(), this.getPlotZ()+1);
+		Plot south = BuildditPlot.getInstance().getPlotAt(this.getWorld(), this.getPlotX(), this.getPlotZ()-1);
+
+		// ...and add their connected plots recursively as needed.
+		connectedPlots.addAll(west.getConnectedPlots(rootPlot));
+		connectedPlots.addAll(east.getConnectedPlots(rootPlot));
+		connectedPlots.addAll(north.getConnectedPlots(rootPlot));
+		connectedPlots.addAll(south.getConnectedPlots(rootPlot));
+
+		return connectedPlots;
 	}
 }
