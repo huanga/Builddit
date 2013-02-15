@@ -163,22 +163,27 @@ public class Plot {
 
 	public HashSet<Plot> getConnectedPlots() {
 		HashSet<Plot> connectedPlots = new HashSet<Plot>();
-		connectedPlots.add(this);
-		connectedPlots.addAll(getConnectedPlots(this));
+		connectedPlots.addAll(getConnectedPlots(this, connectedPlots));
 		return connectedPlots;
 	}
 
-	public HashSet<Plot> getConnectedPlots(Plot rootPlot) {
+	public HashSet<Plot> getConnectedPlots(Plot rootPlot, HashSet<Plot> currentSet) {
 		// Almost "flood fill" like algorithm to find connected plots
-		HashSet<Plot> connectedPlots = new HashSet<Plot>();
+
+		// Note: String comparison is lighter than set.contains lookup for a large set, so we check owner first.
 		if (!this.getOwner().equals(rootPlot.getOwner()))
 		{
-			// This plot is not the same owner as the one we are checking for, return an empty set.
-			return connectedPlots;
+			// This plot is not the same owner as the one we are checking for, we don't need to go further anymore.
+			return currentSet;
 		}
 
-		// This plot is the same owner as the one we are checking for, add itself to the set
-		connectedPlots.add(this);
+		// If the set already know about this node, we don't need to scan again.
+		if (currentSet.contains(this)) {
+			return currentSet;
+		}
+
+		// This plot is the same owner as the one we are checking for, and not already in set, add itself to the set
+		currentSet.add(this);
 
 		// Look at our west, east, north, and south neighbour...
 		Plot west = BuildditPlot.getInstance().getPlotAt(this.getWorld(), this.getPlotX()-1, this.getPlotZ());
@@ -187,11 +192,11 @@ public class Plot {
 		Plot south = BuildditPlot.getInstance().getPlotAt(this.getWorld(), this.getPlotX(), this.getPlotZ()-1);
 
 		// ...and add their connected plots recursively as needed.
-		connectedPlots.addAll(west.getConnectedPlots(rootPlot));
-		connectedPlots.addAll(east.getConnectedPlots(rootPlot));
-		connectedPlots.addAll(north.getConnectedPlots(rootPlot));
-		connectedPlots.addAll(south.getConnectedPlots(rootPlot));
+		currentSet.addAll(west.getConnectedPlots(rootPlot,currentSet));
+		currentSet.addAll(east.getConnectedPlots(rootPlot,currentSet));
+		currentSet.addAll(north.getConnectedPlots(rootPlot,currentSet));
+		currentSet.addAll(south.getConnectedPlots(rootPlot,currentSet));
 
-		return connectedPlots;
+		return currentSet;
 	}
 }
