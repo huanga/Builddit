@@ -201,6 +201,6 @@ public class Plot {
 	}
 
 	public String toString() {
-		return ("BuildditPlot: " + this.getWorld() + "." + this.getPlotX() + "." + this.getPlotZ() + ":(" + this.getOwner() +  ")");
+		return "BuildditPlot{world=" + this.getWorld().getName() + ";plotX=" + this.getPlotX() + ";plotZ=" + this.getPlotZ() + ";owner='" + this.getOwner() + "'}";
 	}
 }
