@@ -87,6 +87,7 @@ public class Plot {
 				Builddit.getInstance().getLogger().log(Level.INFO, "Query: " + querySavePlot);
 				if (Builddit.getInstance().database.runUpdateQuery(querySavePlot) == -1)
 				{
+					Builddit.getInstance().getLogger().log(Level.SEVERE, "INSERT failed. (dbsuccess = false)");
 					dbsuccess = false;
 				}
 				Builddit.getInstance().getLogger().log(Level.INFO, "Plot entry added");
@@ -109,9 +110,11 @@ public class Plot {
 					}
 				} catch (SQLException e) {
 					// Unable to get plot ID, utoh, database down?
+					Builddit.getInstance().getLogger().log(Level.SEVERE, "SQLException DB failure. (dbsuccess = false)");
 					dbsuccess = false;
 				} catch (NullPointerException e) {
 					// No result from database, bad transaction, not safe to continue
+					Builddit.getInstance().getLogger().log(Level.SEVERE, "NPE. (dbsuccess = false)");
 					dbsuccess = false;
 				}
 			} else {
