@@ -188,12 +188,14 @@ public class Plot {
 	}
 
 	private void authorize(String user) {
+		Builddit.getInstance().getLogger().log(Level.INFO, "Authorizing: " + user);
 		String queryAddAuth = "" +
 				"INSERT INTO builddit_authorization " +
 				"SET " +
 				"   pid = " + this.model.getPid() + ", " +
 				"   player = \"" + user + "\" " +
 				"ON DUPLICATE KEY UPDATE pid=pid";
+		Builddit.getInstance().getLogger().log(Level.INFO, "Query: " + queryAddAuth);
 		Builddit.getInstance().database.runUpdateQuery(queryAddAuth);
 		this.model.authorize(user);
 	}
@@ -209,11 +211,13 @@ public class Plot {
 	}
 
 	private void unauthorize(String user) {
+		Builddit.getInstance().getLogger().log(Level.INFO, "Unauthorizing: " + user);
 		String queryDeleteAuth = "" +
 				"DELETE FROM builddit_authorization " +
 				"WHERE " +
 				"   pid = " + this.model.getPid() + "" +
 				"   AND player = \"" + user + "\";";
+		Builddit.getInstance().getLogger().log(Level.INFO, "Query: " + queryDeleteAuth);
 		Builddit.getInstance().database.runUpdateQuery(queryDeleteAuth);
 		this.unauthorize(user);
 	}
@@ -388,10 +392,12 @@ public class Plot {
 	}
 
 	public void unauthorizeAll() {
+		Builddit.getInstance().getLogger().log(Level.INFO, "Unauthorizing all...");
 		String queryDeleteAuth = "" +
 				"DELETE FROM builddit_authorization " +
 				"WHERE " +
 				"   pid = " + this.model.getPid() + ";";
+		Builddit.getInstance().getLogger().log(Level.INFO, "Query: " + queryDeleteAuth);
 		Builddit.getInstance().database.runUpdateQuery(queryDeleteAuth);
 
 		for (String authorized : (HashSet<String>)this.model.getAuthorized().clone())
