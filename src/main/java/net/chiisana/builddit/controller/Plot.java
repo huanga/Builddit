@@ -154,6 +154,7 @@ public class Plot {
 				return -1;
 			}
 			this.setOwner("");
+			this.unauthorizeAll();
 			return 1;
 		}
 		return 0;
@@ -339,6 +340,13 @@ public class Plot {
 		for (String authorized : plot.getAuthorized())
 		{
 			this.model.authorize(authorized);
+		}
+	}
+
+	public void unauthorizeAll() {
+		for (String authorized : this.model.getAuthorized())
+		{
+			this.model.unauthorize(authorized);
 		}
 	}
 }
