@@ -146,7 +146,9 @@ public class PlotCommand implements CommandExecutor {
 					{
 						authorizedList = authorizedList + ", " + authorized;
 					}
-					authorizedList = authorizedList.substring(2);   // truncate the first ", "
+					if (authorizedList.length() > 3) {
+						authorizedList = authorizedList.substring(2);   // truncate the first ", "
+					}
 					player.sendMessage(authorizedList);
 				}
 			}
