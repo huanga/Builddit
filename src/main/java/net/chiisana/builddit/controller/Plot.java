@@ -16,7 +16,6 @@ import org.bukkit.entity.Player;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashSet;
-import java.util.logging.Level;
 
 public class Plot {
 	private PlotModel model;
@@ -71,7 +70,6 @@ public class Plot {
 	}
 
 	public int claim(Player claimant) {
-		Builddit.getInstance().getLogger().log(Level.INFO, "Claiming plot...");
 		if (!this.isOwned() || claimant.hasPermission("builddit.admin"))
 		{
 			Boolean dbsuccess = true;
@@ -85,13 +83,10 @@ public class Plot {
 						"   plotz = " + this.getPlotZ() + ", " +
 						"   owner = \"" + this.getOwner() + "\" " +
 						"ON DUPLICATE KEY UPDATE plotx=plotx;";
-				Builddit.getInstance().getLogger().log(Level.INFO, "Query: " + querySavePlot);
 				if (Builddit.getInstance().database.runUpdateQuery(querySavePlot) == -1)
 				{
-					Builddit.getInstance().getLogger().log(Level.SEVERE, "INSERT failed. (dbsuccess = false)");
 					dbsuccess = false;
 				}
-				Builddit.getInstance().getLogger().log(Level.INFO, "Plot entry added");
 
 				// Fetch builddit_plot.id (pid) for model
 				String queryPID = "SELECT id FROM builddit_plot " +
@@ -101,21 +96,17 @@ public class Plot {
 						"   AND plotz = " + this.getPlotZ() + " " +
 						"   AND owner = \"" + this.getOwner() + "\" " +
 						"LIMIT 1;";
-				Builddit.getInstance().getLogger().log(Level.INFO, "Query: " + queryPID);
 				try {
 					ResultSet rs = Builddit.getInstance().database.runSelectQuery(queryPID);
 					while (rs.next()) {
 						int pid = rs.getInt("id");
 						this.model.setPid(pid);
-						Builddit.getInstance().getLogger().log(Level.INFO, "PID set to: " + pid);
 					}
 				} catch (SQLException e) {
 					// Unable to get plot ID, utoh, database down?
-					Builddit.getInstance().getLogger().log(Level.SEVERE, "SQLException DB failure. (dbsuccess = false)");
 					dbsuccess = false;
 				} catch (NullPointerException e) {
 					// No result from database, bad transaction, not safe to continue
-					Builddit.getInstance().getLogger().log(Level.SEVERE, "NPE. (dbsuccess = false)");
 					dbsuccess = false;
 				}
 			} else {
@@ -188,14 +179,12 @@ public class Plot {
 	}
 
 	private void authorize(String user) {
-		Builddit.getInstance().getLogger().log(Level.INFO, "Authorizing: " + user);
 		String queryAddAuth = "" +
 				"INSERT INTO builddit_authorization " +
 				"SET " +
 				"   pid = " + this.model.getPid() + ", " +
 				"   player = \"" + user + "\" " +
 				"ON DUPLICATE KEY UPDATE pid=pid";
-		Builddit.getInstance().getLogger().log(Level.INFO, "Query: " + queryAddAuth);
 		Builddit.getInstance().database.runUpdateQuery(queryAddAuth);
 		this.model.authorize(user);
 	}
@@ -211,13 +200,11 @@ public class Plot {
 	}
 
 	private void unauthorize(String user) {
-		Builddit.getInstance().getLogger().log(Level.INFO, "Unauthorizing: " + user);
 		String queryDeleteAuth = "" +
 				"DELETE FROM builddit_authorization " +
 				"WHERE " +
 				"   pid = " + this.model.getPid() + "" +
 				"   AND player = \"" + user + "\";";
-		Builddit.getInstance().getLogger().log(Level.INFO, "Query: " + queryDeleteAuth);
 		Builddit.getInstance().database.runUpdateQuery(queryDeleteAuth);
 		this.model.unauthorize(user);
 	}
@@ -340,20 +327,17 @@ public class Plot {
 
 
 		try {
-			Builddit.getInstance().getLogger().log(Level.INFO, "Loading plot from database...");
 			String queryPlotInfo = "SELECT id, owner FROM builddit_plot " +
 					"WHERE " +
 					"   world = \"" + this.getWorld().getName() + "\"" +
 					"   AND plotx = " + this.getPlotX() + " " +
 					"   AND plotz = " + this.getPlotZ() + " " +
 					"LIMIT 1;";
-			Builddit.getInstance().getLogger().log(Level.INFO, "Query: " + queryPlotInfo);
 			ResultSet rs = Builddit.getInstance().database.runSelectQuery(queryPlotInfo);
 			while (rs.next())
 			{
 				this.model.setPid(rs.getInt("id"));
 				this.setOwner(rs.getString("owner"));
-				Builddit.getInstance().getLogger().log(Level.INFO, "Got plot info; owner: '" + this.getOwner() + "'");
 			}
 		} catch (SQLException e) {
 			// Unable to access database, database server down?
@@ -392,12 +376,10 @@ public class Plot {
 	}
 
 	public void unauthorizeAll() {
-		Builddit.getInstance().getLogger().log(Level.INFO, "Unauthorizing all...");
 		String queryDeleteAuth = "" +
 				"DELETE FROM builddit_authorization " +
 				"WHERE " +
 				"   pid = " + this.model.getPid() + ";";
-		Builddit.getInstance().getLogger().log(Level.INFO, "Query: " + queryDeleteAuth);
 		Builddit.getInstance().database.runUpdateQuery(queryDeleteAuth);
 
 		for (String authorized : (HashSet<String>)this.model.getAuthorized().clone())
