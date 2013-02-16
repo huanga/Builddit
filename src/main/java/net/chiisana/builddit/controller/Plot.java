@@ -310,4 +310,8 @@ public class Plot {
 			// Plot not in database, this was not unclaimed.
 		}
 	}
+
+	public HashSet<String> getAuthorized() {
+		return this.model.getAuthorized();
+	}
 }

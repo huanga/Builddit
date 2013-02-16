@@ -70,4 +70,8 @@ public class PlotModel {
 	public boolean isAuthorizedFor(String user) {
 		return (this.authorized.contains(user) || this.owner.equals(user));
 	}
+
+	public HashSet<String> getAuthorized() {
+		return this.authorized;
+	}
 }

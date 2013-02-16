@@ -119,6 +119,20 @@ public class PlotCommand implements CommandExecutor {
 					return true;
 				}
 			}
+			else if (subCmd.equalsIgnoreCase("list-auth"))
+			{
+				if (currentPlot.getOwner().equals(player.getName()))
+				{
+					player.sendMessage("People authorized to edit this plot: ");
+					String authorizedList = "";
+					for(String authorized : currentPlot.getAuthorized())
+					{
+						authorizedList = authorizedList + ", " + authorized;
+					}
+					authorizedList = authorizedList.substring(2);   // truncate the first ", "
+					player.sendMessage(authorizedList);
+				}
+			}
 			else if (subCmd.equalsIgnoreCase("test-connected"))
 			{
 				HashSet<Plot> connectedPlots = currentPlot.getConnectedPlots();
