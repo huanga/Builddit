@@ -13,6 +13,8 @@ import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.HashSet;
 
 public class Plot {
@@ -67,23 +69,82 @@ public class Plot {
 		return location;
 	}
 
-	public boolean claim(String owner) {
-		if (this.isOwned())
+	public int claim(Player claimant) {
+		if (!this.isOwned() || claimant.hasPermission("builddit.admin"))
 		{
-			return false;
-		} else {
-			this.setOwner(owner);
-			return true;
+			Boolean dbsuccess = true;
+			if (!this.isOwned())
+			{
+				// No owner, INSERT into database table;
+				String querySavePlot = "INSERT INTO builddit_plot " +
+						"SET " +
+						"   world = \"" + this.getWorld().getName() + "\", " +
+						"   plotx = " + this.getPlotX() + ", " +
+						"   plotz = " + this.getPlotZ() + ", " +
+						"   owner = \"" + this.getOwner() + "\";";
+				if (Builddit.getInstance().database.runUpdateQuery(querySavePlot) == -1)
+				{
+					dbsuccess = false;
+				}
+
+				// Fetch builddit_plot.id (pid) for model
+				String queryPID = "SELECT id FROM builddit_plot " +
+						"WHERE " +
+						"   world = \"" + this.getWorld().getName() + "\", " +
+						"   plotx = " + this.getPlotX() + ", " +
+						"   plotz = " + this.getPlotZ() + ", " +
+						"   owner = \"" + this.getOwner() + "\"" +
+						"LIMIT 1;";
+				try {
+					ResultSet rs = Builddit.getInstance().database.runSelectQuery(queryPID);
+					while (rs.next()) {
+						int pid = rs.getInt("id");
+						this.model.setPid(pid);
+					}
+				} catch (SQLException e) {
+					// Unable to get plot ID, utoh, database down?
+					dbsuccess = false;
+				}
+			} else {
+				// Previously owned, admin override, UPDATE record from database table;
+				String querySavePlot = "UPDATE builddit_plot " +
+						"SET " +
+						"   world = \"" + this.getWorld().getName() + "\", " +
+						"   plotx = " + this.getPlotX() + ", " +
+						"   plotz = " + this.getPlotZ() + ", " +
+						"   owner = \"" + this.getOwner() + "\"" +
+						"WHERE " +
+						"   id = " + this.model.getPid();
+				if (Builddit.getInstance().database.runUpdateQuery(querySavePlot) == -1)
+				{
+					dbsuccess = false;
+				}
+			}
+			if (dbsuccess) {
+				this.setOwner(claimant.getName());
+				return 1;
+			} else {
+				return -1;
+			}
 		}
+		return 0;
 	}
 
-	public boolean unclaim(Player unclaimant) {
+	public int unclaim(Player unclaimant) {
 		if (this.getOwner().equals(unclaimant.getName()) || unclaimant.hasPermission("builddit.admin"))
 		{
+			// DELETE from database table
+			String querySavePlot = "DELETE FROM builddit_plot " +
+					"WHERE " +
+					"   id = " + this.model.getPid();
+			if (Builddit.getInstance().database.runUpdateQuery(querySavePlot) == -1)
+			{
+				return -1;
+			}
 			this.setOwner("");
-			return true;
+			return 1;
 		}
-		return false;
+		return 0;
 	}
 
 	public String getOwner() {
@@ -202,5 +263,51 @@ public class Plot {
 
 	public String toString() {
 		return "BuildditPlot{world=" + this.getWorld().getName() + ";plotX=" + this.getPlotX() + ";plotZ=" + this.getPlotZ() + ";owner='" + this.getOwner() + "'}";
+	}
+
+	public void load() {
+		// Attempt to load this Plot from MySQL
+		// Authorization is handled via authorize/unauthorize
+
+		/* Tables
+			builddit_plot
+			----------------------------------------------------------------------------------------------------
+            CREATE TABLE `builddit_plot` (
+			 `id` int(10) NOT NULL AUTO_INCREMENT,
+			 `world` varchar(32) NOT NULL,
+			 `plotx` int(10) NOT NULL,
+			 `plotz` int(10) NOT NULL,
+			 `owner` varchar(24) NOT NULL,
+			 PRIMARY KEY (`id`),
+			 UNIQUE KEY `plot` (`world`,`plotx`,`plotz`)
+			) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+			builddit_authorization
+			----------------------------------------------------------------------------------------------------
+			CREATE TABLE `builddit_authorization` (
+			 `id` int(10) NOT NULL AUTO_INCREMENT,
+			 `pid` int(10) NOT NULL,
+			 `player` varchar(24) NOT NULL,
+			 PRIMARY KEY (`id`),
+			 KEY `pid` (`pid`)
+			) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+		 */
+
+		String queryPlotInfo = "SELECT id, owner FROM builddit_plot " +
+								"WHERE " +
+								"   world = \"" + this.getWorld().getName() + "\"" +
+								"   AND plotx = " + this.getPlotX() + " " +
+								"   AND plotz = " + this.getPlotZ() + " " +
+								"LIMIT 1;";
+		try {
+			ResultSet rs = Builddit.getInstance().database.runSelectQuery(queryPlotInfo);
+			while (rs.next())
+			{
+				this.model.setPid(rs.getInt("id"));
+				this.setOwner(rs.getString("owner"));
+			}
+		} catch (SQLException e) {
+			// Plot not in database, this was not unclaimed.
+		}
 	}
 }

@@ -6,7 +6,8 @@ import java.util.HashSet;
 
 public class PlotModel {
 
-	private String owner;
+	private int pid;
+	private String owner = "";
 
 	private HashSet<String> authorized = new HashSet<String>();
 
@@ -14,8 +15,12 @@ public class PlotModel {
 	private int plotX;
 	private int plotZ;
 
-	public PlotModel() {
-		this.owner = "";
+	public int getPid() {
+		return pid;
+	}
+
+	public void setPid(int pid) {
+		this.pid = pid;
 	}
 
 	public String getOwner() {

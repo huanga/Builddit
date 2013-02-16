@@ -92,10 +92,11 @@ public class BuildditPlot {
 			plot = plotHashMap.get(plotID);
 			return plot;
 		} else {
-			// We don't know about this plot yet, create it
+			// We haven't got info about this plot during this session, create/load it
 			plot = new Plot();
 			plot.setPlotXZ(px, pz);
 			plot.setWorld(world);
+			plot.load();
 			plotHashMap.put(plotID, plot);
 			return plot;
 		}

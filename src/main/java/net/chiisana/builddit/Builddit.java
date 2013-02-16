@@ -19,7 +19,7 @@ import java.util.logging.Level;
 public class Builddit extends JavaPlugin implements Listener {
 	public WorldEditPlugin wePlugin;
 	public WorldEditAPI weAPI;
-	private MySQLUtil database;
+	public MySQLUtil database;
 
 	public static Builddit instance;
 

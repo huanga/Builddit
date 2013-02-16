@@ -58,13 +58,8 @@ public class PlotCommand implements CommandExecutor {
 			Plot currentPlot = BuildditPlot.getInstance().getPlotAt(player.getLocation());
 			if (subCmd.equalsIgnoreCase("claim"))
 			{
-				// Claiming a plot is pretty straight forward: try to claim it, and let player know result
-				if (currentPlot.claim(player.getName()))
-				{
-					player.sendMessage("You have successfully claimed the plot.");
-				} else {
-					player.sendMessage("Plot is already owned by " + currentPlot.getOwner() + ".");
-				}
+				String result = this._claim(currentPlot, player);
+				player.sendMessage(result);
 				return true;
 			}
 			else if (subCmd.equalsIgnoreCase("unclaim"))
@@ -137,13 +132,31 @@ public class PlotCommand implements CommandExecutor {
 		return false;
 	}
 
+	private String _claim(Plot plot, Player player) {
+		// Claiming a plot is pretty straight forward: try to claim it, and let player know result
+		switch(plot.claim(player)) {
+			case 1:
+				return "You have successfully claimed the plot.";
+			case 0:
+				return "Plot is already owned by " + plot.getOwner() + ".";
+			case -1:
+				return "Database server is unavailable at this time. Please try again later.";
+			default:
+				return "You should never be seeing this message. Something went wrong, blame the developer.";
+		}
+	}
+
 	private String _unclaim(Plot plot, Player player) {
 		// Unclaiming is a bit less straight forward: only allow if player owns it or is admin
-		if (plot.unclaim(player))
-		{
-			return "You have successfully unclaimed the plot.";
-		} else {
-			return "You do not own the plot, so you cannot unclaim it.";
+		switch(plot.unclaim(player)) {
+			case 1:
+				return "You have successfully unclaimed the plot.";
+			case 0:
+				return "You do not own the plot, so you cannot unclaim it.";
+			case -1:
+				return "Database server is unavailable at this time. Please try again later.";
+			default:
+				return "You should never be seeing this message. Something went wrong, blame the developer.";
 		}
 	}
 
