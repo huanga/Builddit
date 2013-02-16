@@ -4,6 +4,7 @@ import net.chiisana.builddit.helper.PlotHelper;
 import net.chiisana.builddit.model.PlotConfiguration;
 import org.bukkit.Location;
 import org.bukkit.World;
+import org.bukkit.block.Biome;
 import org.bukkit.generator.BlockPopulator;
 import org.bukkit.generator.ChunkGenerator;
 
@@ -37,6 +38,7 @@ public class PlotGenerator extends ChunkGenerator {
 		short[][] result = new short[world.getMaxHeight() / 16][];
 		for (int x = 0; x < 16; x++) {
 			for (int z = 0; z < 16; z++) {
+				world.setBiome(cxx+x, czz+z, Biome.PLAINS);
 				for (int y = 0; y < height; y++) {
 					if (y == 0) {
 						// Base Layer
