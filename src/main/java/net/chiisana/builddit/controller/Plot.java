@@ -344,7 +344,7 @@ public class Plot {
 	}
 
 	public void unauthorizeAll() {
-		for (String authorized : this.model.getAuthorized())
+		for (String authorized : (HashSet<String>)this.model.getAuthorized().clone())
 		{
 			this.model.unauthorize(authorized);
 		}
