@@ -94,6 +94,12 @@ public class PlotCommand implements CommandExecutor {
 				String target = args[1];
 				if (currentPlot.authorize(target, player))
 				{
+					// Also add permissions to all connected plots
+					HashSet<Plot> connectedPlots = currentPlot.getConnectedPlots();
+					for (Plot plot : connectedPlots)
+					{
+						plot.authorize(target, player);
+					}
 					player.sendMessage(target + " has been added to the authorized users list.");
 					return true;
 				} else {
@@ -112,6 +118,12 @@ public class PlotCommand implements CommandExecutor {
 				String target = args[1];
 				if (currentPlot.unauthorize(target, player))
 				{
+					// Also remove permissions from all connected plots
+					HashSet<Plot> connectedPlots = currentPlot.getConnectedPlots();
+					for (Plot plot : connectedPlots)
+					{
+						plot.unauthorize(target, player);
+					}
 					player.sendMessage(target + " has been removed from the authorized users list.");
 					return true;
 				} else {
