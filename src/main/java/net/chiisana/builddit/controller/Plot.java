@@ -237,11 +237,16 @@ public class Plot {
 
 	public HashSet<Plot> getConnectedPlots() {
 		HashSet<Plot> connectedPlots = new HashSet<Plot>();
-		connectedPlots.addAll(getConnectedPlots(this, connectedPlots));
+
+		if (this.isOwned())
+		{
+			connectedPlots.addAll(getConnectedPlots(this, connectedPlots));
+		}
+
 		return connectedPlots;
 	}
 
-	public HashSet<Plot> getConnectedPlots(Plot rootPlot, HashSet<Plot> currentSet) {
+	private HashSet<Plot> getConnectedPlots(Plot rootPlot, HashSet<Plot> currentSet) {
 		// Almost "flood fill" like algorithm to find connected plots
 
 		// Note: String comparison is lighter than set.contains lookup for a large set, so we check owner first.
