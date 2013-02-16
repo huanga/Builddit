@@ -97,7 +97,7 @@ public class PlotCommand implements CommandExecutor {
 				}
 
 				String target = args[1];
-				if (currentPlot.authorize(target, player))
+				if (currentPlot.getOwner().equals(player.getName()))
 				{
 					// Also add permissions to all connected plots
 					HashSet<Plot> connectedPlots = currentPlot.getConnectedPlots();
