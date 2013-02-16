@@ -219,7 +219,7 @@ public class Plot {
 				"   AND player = \"" + user + "\";";
 		Builddit.getInstance().getLogger().log(Level.INFO, "Query: " + queryDeleteAuth);
 		Builddit.getInstance().database.runUpdateQuery(queryDeleteAuth);
-		this.unauthorize(user);
+		this.model.unauthorize(user);
 	}
 
 	public boolean clear(Player clearer) {
