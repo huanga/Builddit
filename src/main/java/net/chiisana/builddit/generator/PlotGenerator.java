@@ -1,5 +1,6 @@
 package net.chiisana.builddit.generator;
 
+import net.chiisana.builddit.Builddit;
 import net.chiisana.builddit.helper.PlotHelper;
 import net.chiisana.builddit.model.PlotConfiguration;
 import org.bukkit.Location;
@@ -11,6 +12,7 @@ import org.bukkit.generator.ChunkGenerator;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
+import java.util.logging.Level;
 
 public class PlotGenerator extends ChunkGenerator {
 	@Override
@@ -38,7 +40,9 @@ public class PlotGenerator extends ChunkGenerator {
 		short[][] result = new short[world.getMaxHeight() / 16][];
 		for (int x = 0; x < 16; x++) {
 			for (int z = 0; z < 16; z++) {
+				Builddit.getInstance().getLogger().log(Level.INFO, "Setting (ext): " + (cxx+x) + "," + (czz+z) + " to Biome.PLAINS.");
 				world.setBiome(cxx+x, czz+z, Biome.PLAINS);
+				biomes.setBiome(x,z,Biome.PLAINS);
 				for (int y = 0; y < height; y++) {
 					if (y == 0) {
 						// Base Layer
@@ -75,7 +79,9 @@ public class PlotGenerator extends ChunkGenerator {
 		byte[][] result = new byte[world.getMaxHeight() / 16][];
 		for (int x = 0; x < 16; x++) {
 			for (int z = 0; z < 16; z++) {
+				Builddit.getInstance().getLogger().log(Level.INFO, "Setting: " + (cxx+x) + "," + (czz+z) + " to Biome.PLAINS.");
 				world.setBiome(cxx+x, czz+z, Biome.PLAINS);
+				biomes.setBiome(x,z,Biome.PLAINS);
 				for (int y = 0; y < height; y++) {
 					if (y == 0) {
 						// Base Layer
