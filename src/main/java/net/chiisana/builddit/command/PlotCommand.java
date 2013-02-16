@@ -162,6 +162,13 @@ public class PlotCommand implements CommandExecutor {
 		// Claiming a plot is pretty straight forward: try to claim it, and let player know result
 		switch(plot.claim(player)) {
 			case 1:
+				HashSet<Plot> connectedPlot = plot.getConnectedPlots();
+				for (Plot neighbour : connectedPlot)
+				{
+					// Claiming a connected plot, inherit authorizations accordingly
+					plot.copyAuthFrom(neighbour);
+					break;
+				}
 				return "You have successfully claimed the plot.";
 			case 0:
 				return "Plot is already owned by " + plot.getOwner() + ".";

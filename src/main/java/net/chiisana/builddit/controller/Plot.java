@@ -314,4 +314,8 @@ public class Plot {
 	public HashSet<String> getAuthorized() {
 		return this.model.getAuthorized();
 	}
+
+	public void copyAuthFrom(Plot plot) {
+		this.model.setAuthorized(plot.getAuthorized());
+	}
 }

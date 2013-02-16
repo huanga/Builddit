@@ -74,4 +74,8 @@ public class PlotModel {
 	public HashSet<String> getAuthorized() {
 		return this.authorized;
 	}
+
+	public void setAuthorized(HashSet<String> authorized) {
+		this.authorized = (HashSet<String>)authorized.clone();
+	}
 }
