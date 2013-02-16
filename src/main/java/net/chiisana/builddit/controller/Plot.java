@@ -83,7 +83,8 @@ public class Plot {
 						"   world = \"" + this.getWorld().getName() + "\", " +
 						"   plotx = " + this.getPlotX() + ", " +
 						"   plotz = " + this.getPlotZ() + ", " +
-						"   owner = \"" + this.getOwner() + "\";";
+						"   owner = \"" + this.getOwner() + "\" " +
+						"ON DUPLICATE KEY UPDATE plotx=plotx;";
 				Builddit.getInstance().getLogger().log(Level.INFO, "Query: " + querySavePlot);
 				if (Builddit.getInstance().database.runUpdateQuery(querySavePlot) == -1)
 				{
