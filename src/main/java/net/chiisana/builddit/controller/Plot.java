@@ -97,7 +97,7 @@ public class Plot {
 						"   world = \"" + this.getWorld().getName() + "\", " +
 						"   plotx = " + this.getPlotX() + ", " +
 						"   plotz = " + this.getPlotZ() + ", " +
-						"   owner = \"" + this.getOwner() + "\"" +
+						"   owner = \"" + this.getOwner() + "\" " +
 						"LIMIT 1;";
 				Builddit.getInstance().getLogger().log(Level.INFO, "Query: " + queryPID);
 				try {
@@ -121,7 +121,7 @@ public class Plot {
 						"   world = \"" + this.getWorld().getName() + "\", " +
 						"   plotx = " + this.getPlotX() + ", " +
 						"   plotz = " + this.getPlotZ() + ", " +
-						"   owner = \"" + this.getOwner() + "\"" +
+						"   owner = \"" + this.getOwner() + "\" " +
 						"WHERE " +
 						"   id = " + this.model.getPid();
 				if (Builddit.getInstance().database.runUpdateQuery(querySavePlot) == -1)
