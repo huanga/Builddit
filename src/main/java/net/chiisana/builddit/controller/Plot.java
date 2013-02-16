@@ -16,6 +16,7 @@ import org.bukkit.entity.Player;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashSet;
+import java.util.logging.Level;
 
 public class Plot {
 	private PlotModel model;
@@ -70,6 +71,7 @@ public class Plot {
 	}
 
 	public int claim(Player claimant) {
+		Builddit.getInstance().getLogger().log(Level.INFO, "Claiming plot...");
 		if (!this.isOwned() || claimant.hasPermission("builddit.admin"))
 		{
 			Boolean dbsuccess = true;
@@ -82,10 +84,12 @@ public class Plot {
 						"   plotx = " + this.getPlotX() + ", " +
 						"   plotz = " + this.getPlotZ() + ", " +
 						"   owner = \"" + this.getOwner() + "\";";
+				Builddit.getInstance().getLogger().log(Level.INFO, "Query: " + querySavePlot);
 				if (Builddit.getInstance().database.runUpdateQuery(querySavePlot) == -1)
 				{
 					dbsuccess = false;
 				}
+				Builddit.getInstance().getLogger().log(Level.INFO, "Plot entry added");
 
 				// Fetch builddit_plot.id (pid) for model
 				String queryPID = "SELECT id FROM builddit_plot " +
@@ -95,17 +99,20 @@ public class Plot {
 						"   plotz = " + this.getPlotZ() + ", " +
 						"   owner = \"" + this.getOwner() + "\"" +
 						"LIMIT 1;";
+				Builddit.getInstance().getLogger().log(Level.INFO, "Query: " + queryPID);
 				try {
 					ResultSet rs = Builddit.getInstance().database.runSelectQuery(queryPID);
 					while (rs.next()) {
 						int pid = rs.getInt("id");
 						this.model.setPid(pid);
+						Builddit.getInstance().getLogger().log(Level.INFO, "PID set to: " + pid);
 					}
 				} catch (SQLException e) {
 					// Unable to get plot ID, utoh, database down?
 					dbsuccess = false;
 				} catch (NullPointerException e) {
-					// No result from database, safe to move on for claiming
+					// No result from database, bad transaction, not safe to continue
+					dbsuccess = false;
 				}
 			} else {
 				// Previously owned, admin override, UPDATE record from database table;
@@ -295,24 +302,27 @@ public class Plot {
 			) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 		 */
 
+		Builddit.getInstance().getLogger().log(Level.INFO, "Loading plot from database...");
 		String queryPlotInfo = "SELECT id, owner FROM builddit_plot " +
 								"WHERE " +
 								"   world = \"" + this.getWorld().getName() + "\"" +
 								"   AND plotx = " + this.getPlotX() + " " +
 								"   AND plotz = " + this.getPlotZ() + " " +
 								"LIMIT 1;";
+		Builddit.getInstance().getLogger().log(Level.INFO, "Query: " + queryPlotInfo);
 		try {
 			ResultSet rs = Builddit.getInstance().database.runSelectQuery(queryPlotInfo);
 			while (rs.next())
 			{
 				this.model.setPid(rs.getInt("id"));
 				this.setOwner(rs.getString("owner"));
+				Builddit.getInstance().getLogger().log(Level.INFO, "Got plot info; owner: '" + this.getOwner() + "'");
 			}
 		} catch (SQLException e) {
 			// Unable to access database, database server down?
 			return -1;
 		} catch (NullPointerException e) {
-			// Plot not in database, this was not unclaimed.
+			// Plot not in database, this was not previously claimed.
 			return 1;
 		}
 		return 1;
