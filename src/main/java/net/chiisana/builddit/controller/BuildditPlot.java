@@ -96,7 +96,11 @@ public class BuildditPlot {
 			plot = new Plot();
 			plot.setPlotXZ(px, pz);
 			plot.setWorld(world);
-			plot.load();
+			if (plot.load() == -1)
+			{
+				Builddit.getInstance().getLogger().log(Level.SEVERE, "Database seems to be down!");
+				return null;
+			}
 			plotHashMap.put(plotID, plot);
 			return plot;
 		}

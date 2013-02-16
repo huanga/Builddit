@@ -104,6 +104,8 @@ public class Plot {
 				} catch (SQLException e) {
 					// Unable to get plot ID, utoh, database down?
 					dbsuccess = false;
+				} catch (NullPointerException e) {
+					// No result from database, safe to move on for claiming
 				}
 			} else {
 				// Previously owned, admin override, UPDATE record from database table;
@@ -265,7 +267,7 @@ public class Plot {
 		return "BuildditPlot{world=" + this.getWorld().getName() + ";plotX=" + this.getPlotX() + ";plotZ=" + this.getPlotZ() + ";owner='" + this.getOwner() + "'}";
 	}
 
-	public void load() {
+	public int load() {
 		// Attempt to load this Plot from MySQL
 		// Authorization is handled via authorize/unauthorize
 
@@ -307,8 +309,13 @@ public class Plot {
 				this.setOwner(rs.getString("owner"));
 			}
 		} catch (SQLException e) {
+			// Unable to access database, database server down?
+			return -1;
+		} catch (NullPointerException e) {
 			// Plot not in database, this was not unclaimed.
+			return 1;
 		}
+		return 1;
 	}
 
 	public HashSet<String> getAuthorized() {

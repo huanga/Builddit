@@ -56,6 +56,11 @@ public class PlotCommand implements CommandExecutor {
 			}
 
 			Plot currentPlot = BuildditPlot.getInstance().getPlotAt(player.getLocation());
+			if (currentPlot == null)
+			{
+				player.sendMessage("Unable to acquire plot on your current position. Database server may be down right now. Please contact the server admin and try again later.");
+				return true;
+			}
 			if (subCmd.equalsIgnoreCase("claim"))
 			{
 				String result = this._claim(currentPlot, player);
