@@ -94,10 +94,10 @@ public class Plot {
 				// Fetch builddit_plot.id (pid) for model
 				String queryPID = "SELECT id FROM builddit_plot " +
 						"WHERE " +
-						"   world = \"" + this.getWorld().getName() + "\", " +
-						"   plotx = " + this.getPlotX() + ", " +
-						"   plotz = " + this.getPlotZ() + ", " +
-						"   owner = \"" + this.getOwner() + "\" " +
+						"   world = \"" + this.getWorld().getName() + "\" " +
+						"   AND plotx = " + this.getPlotX() + " " +
+						"   AND plotz = " + this.getPlotZ() + " " +
+						"   AND owner = \"" + this.getOwner() + "\" " +
 						"LIMIT 1;";
 				Builddit.getInstance().getLogger().log(Level.INFO, "Query: " + queryPID);
 				try {
