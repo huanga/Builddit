@@ -336,6 +336,9 @@ public class Plot {
 	}
 
 	public void copyAuthFrom(Plot plot) {
-		this.model.setAuthorized(plot.getAuthorized());
+		for (String authorized : plot.getAuthorized())
+		{
+			this.model.authorize(authorized);
+		}
 	}
 }
