@@ -65,9 +65,53 @@ public class PlotGenerator extends ChunkGenerator {
 		return result;
 	}
 
+	@Override
+	public byte[][] generateBlockSections(World world, Random random, int cx, int cz, BiomeGrid biomes) {
+
+		int height = PlotConfiguration.intPlotHeight + 2;
+		int cxx = cx << 4;
+		int czz = cz << 4;
+
+		byte[][] result = new byte[world.getMaxHeight() / 16][];
+		for (int x = 0; x < 16; x++) {
+			for (int z = 0; z < 16; z++) {
+				world.setBiome(cxx+x, czz+z, Biome.PLAINS);
+				for (int y = 0; y < height; y++) {
+					if (y == 0) {
+						// Base Layer
+						setBlock(result, x, y, z, (byte) PlotConfiguration.materialBase.getId());
+					} else if (y <= PlotConfiguration.intPlotHeight - 1) {
+						// Foundation Layer
+						setBlock(result, x, y, z, (byte) PlotConfiguration.materialPlotFoundation.getId());
+					} else if (y == PlotConfiguration.intPlotHeight) {
+						// Surface|Road Layer
+						if (PlotHelper.isRoad(cxx, czz, x, z)) {
+							setBlock(result, x, y, z, (byte) PlotConfiguration.materialRoadA.getId());
+						} else {
+							setBlock(result, x, y, z, (byte) PlotConfiguration.materialPlotSurface.getId());
+						}
+					} else if (y == PlotConfiguration.intPlotHeight + 1) {
+						// Wall Layer
+						if (PlotHelper.isWall(cxx, czz, x, z)) {
+							setBlock(result, x, y, z, (byte) PlotConfiguration.materialWall.getId());
+						}
+					}
+				}
+			}
+		}
+		return result;
+	}
+
 	private void setBlock(short[][] result, int x, int y, int z, Short blkid) {
 		if (result[y >> 4] == null) {
 			result[y >> 4] = new short[4096];
+		}
+		result[y >> 4][((y & 0xF) << 8) | (z << 4) | x] = blkid;
+	}
+
+	private void setBlock(byte[][] result, int x, int y, int z, byte blkid) {
+		if (result[y >> 4] == null) {
+			result[y >> 4] = new byte[4096];
 		}
 		result[y >> 4][((y & 0xF) << 8) | (z << 4) | x] = blkid;
 	}
