@@ -180,21 +180,42 @@ public class Plot {
 	public boolean authorize(String user, Player requester) {
 		if (this.getOwner().equals(requester.getName()) || requester.hasPermission("builddit.admin"))
 		{
-			this.model.authorize(user);
+			this.authorize(user);
 			return true;
 		} else {
 			return false;
 		}
 	}
 
+	private void authorize(String user) {
+		String queryAddAuth = "" +
+				"INSERT INTO builddit_authorization " +
+				"SET " +
+				"   pid = " + this.model.getPid() + ", " +
+				"   player = \"" + user + "\" " +
+				"ON DUPLICATE KEY UPDATE pid=pid";
+		Builddit.getInstance().database.runUpdateQuery(queryAddAuth);
+		this.model.authorize(user);
+	}
+
 	public boolean unauthorize(String user, Player requester) {
 		if (this.getOwner().equals(requester.getName()) || requester.hasPermission("builddit.admin"))
 		{
-			this.model.unauthorize(user);
+			this.unauthorize(user);
 			return true;
 		} else {
 			return false;
 		}
+	}
+
+	private void unauthorize(String user) {
+		String queryDeleteAuth = "" +
+				"DELETE FROM builddit_authorization " +
+				"WHERE " +
+				"   pid = " + this.model.getPid() + "" +
+				"   AND player = \"" + user + "\";";
+		Builddit.getInstance().database.runUpdateQuery(queryDeleteAuth);
+		this.unauthorize(user);
 	}
 
 	public boolean clear(Player clearer) {
@@ -308,19 +329,21 @@ public class Plot {
 			 `pid` int(10) NOT NULL,
 			 `player` varchar(24) NOT NULL,
 			 PRIMARY KEY (`id`),
+			 UNIQUE KEY `pid-player` (`pid`,`player`)
 			 KEY `pid` (`pid`)
 			) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 		 */
 
-		Builddit.getInstance().getLogger().log(Level.INFO, "Loading plot from database...");
-		String queryPlotInfo = "SELECT id, owner FROM builddit_plot " +
-								"WHERE " +
-								"   world = \"" + this.getWorld().getName() + "\"" +
-								"   AND plotx = " + this.getPlotX() + " " +
-								"   AND plotz = " + this.getPlotZ() + " " +
-								"LIMIT 1;";
-		Builddit.getInstance().getLogger().log(Level.INFO, "Query: " + queryPlotInfo);
+
 		try {
+			Builddit.getInstance().getLogger().log(Level.INFO, "Loading plot from database...");
+			String queryPlotInfo = "SELECT id, owner FROM builddit_plot " +
+					"WHERE " +
+					"   world = \"" + this.getWorld().getName() + "\"" +
+					"   AND plotx = " + this.getPlotX() + " " +
+					"   AND plotz = " + this.getPlotZ() + " " +
+					"LIMIT 1;";
+			Builddit.getInstance().getLogger().log(Level.INFO, "Query: " + queryPlotInfo);
 			ResultSet rs = Builddit.getInstance().database.runSelectQuery(queryPlotInfo);
 			while (rs.next())
 			{
@@ -335,6 +358,21 @@ public class Plot {
 			// Plot not in database, this was not previously claimed.
 			return 1;
 		}
+		try {
+			String queryGetAuth = "SELECT player FROM builddit_authorization " +
+					"WHERE " +
+					"   pid = " + this.model.getPid() + ";";
+			ResultSet rs = Builddit.getInstance().database.runSelectQuery(queryGetAuth);
+			while (rs.next())
+			{
+				this.authorize(rs.getString("player"));
+			}
+		} catch (SQLException e) {
+			// Unable to access database, database server down?
+			return -1;
+		} catch (NullPointerException e) {
+			// Permission not in database; this is fine, new plots and owner-only plots will not have permissions
+		}
 		return 1;
 	}
 
@@ -345,11 +383,17 @@ public class Plot {
 	public void copyAuthFrom(Plot plot) {
 		for (String authorized : plot.getAuthorized())
 		{
-			this.model.authorize(authorized);
+			this.authorize(authorized);
 		}
 	}
 
 	public void unauthorizeAll() {
+		String queryDeleteAuth = "" +
+				"DELETE FROM builddit_authorization " +
+				"WHERE " +
+				"   pid = " + this.model.getPid() + ";";
+		Builddit.getInstance().database.runUpdateQuery(queryDeleteAuth);
+
 		for (String authorized : (HashSet<String>)this.model.getAuthorized().clone())
 		{
 			this.model.unauthorize(authorized);
