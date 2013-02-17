@@ -67,6 +67,7 @@ public class PlotHelper {
 		int px;
 		if (location.getX() >= 0) {
 			px = (int)StrictMath.ceil(location.getX()/PlotConfiguration.intPlotCalculatedSize);
+			px = (px == 0) ? 1 : px;
 		} else {
 			px = ((int)StrictMath.floor(location.getX()/PlotConfiguration.intPlotCalculatedSize));
 		}
@@ -77,6 +78,7 @@ public class PlotHelper {
 		int pz;
 		if (location.getZ() >= 0) {
 			pz = ((int)StrictMath.ceil(location.getZ()/PlotConfiguration.intPlotCalculatedSize));
+			pz = (pz == 0) ? 1 : pz;
 		} else {
 			pz = ((int)StrictMath.floor(location.getZ()/PlotConfiguration.intPlotCalculatedSize));
 		}
