@@ -8,6 +8,7 @@ import net.chiisana.builddit.controller.BuildditPlot;
 import net.chiisana.builddit.generator.PlotGenerator;
 import net.chiisana.builddit.task.DelayedInitTask;
 import net.chiisana.util.MySQLUtil;
+import org.bukkit.ChatColor;
 import org.bukkit.event.Listener;
 import org.bukkit.generator.ChunkGenerator;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -55,6 +56,12 @@ public class Builddit extends JavaPlugin implements Listener {
 	}
 
 	public void initDelayed() {
+		if(getServer().getPluginManager().isPluginEnabled("PermissionsEX")){
+			getLogger().log(Level.WARNING, ChatColor.RED + "You are running PermissionEX which is known to cause bad behaviours. Builddit is disabling itself to prevent problems.");
+			getServer().getPluginManager().disablePlugin(this);
+			return;
+		}
+
 		getLogger().log(Level.INFO, "Initializing delayed initialization.");
 		// Register these after everything are loaded
 		wePlugin = (WorldEditPlugin) getServer().getPluginManager().getPlugin("WorldEdit");
