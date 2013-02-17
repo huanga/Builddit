@@ -9,7 +9,6 @@ import com.sk89q.worldedit.regions.RegionSelector;
 import net.chiisana.builddit.Builddit;
 import net.chiisana.builddit.model.PlotConfiguration;
 import net.chiisana.builddit.model.PlotModel;
-import net.chiisana.builddit.model.PlotRoadModel;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
@@ -25,11 +24,6 @@ public class Plot {
 	private Plot plotEast;
 	private Plot plotNorth;
 	private Plot plotSouth;
-
-	private PlotRoadModel roadWest;
-	private PlotRoadModel roadEast;
-	private PlotRoadModel roadNorth;
-	private PlotRoadModel roadSouth;
 
 	public Plot() {
 		this.model = new PlotModel();
@@ -430,6 +424,4 @@ public class Plot {
 		this.plotSouth = BuildditPlot.getInstance().getPlotAt(this.getWorld(), this.getPlotX(), this.getPlotZ() - 1);
 		return this.plotSouth;
 	}
-
-
 }
