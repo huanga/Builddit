@@ -13,6 +13,25 @@ import org.bukkit.event.block.*;
 
 public class PlotBlockListener implements Listener {
 	@EventHandler(priority = EventPriority.NORMAL)
+	public void onBlockDamageEvent(BlockDamageEvent event) {
+		// Debug function really.
+		Location blockLocation = event.getBlock().getLocation();
+		if (event.getPlayer().getItemInHand().getType().equals(Material.YELLOW_FLOWER))
+		{
+			// Yellow flower = Plot Reader
+			event.getPlayer().sendMessage(BuildditPlot.getInstance().getPlotAt(blockLocation).toString());
+		}
+		else if (event.getPlayer().getItemInHand().getType().equals(Material.RED_ROSE))
+		{
+			// Red flower = Get connected plots
+			for (Plot plot : BuildditPlot.getInstance().getPlotAt(blockLocation).getConnectedPlots())
+			{
+				event.getPlayer().sendMessage(plot.toString());
+			}
+		}
+	}
+
+	@EventHandler(priority = EventPriority.NORMAL)
 	public void onBlockBreakEvent(BlockBreakEvent event) {
 		// Check if the player is allowed to break things here.
 		Location blockLocation = event.getBlock().getLocation();
