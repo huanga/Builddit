@@ -15,11 +15,10 @@ public class PlotHelper {
 				returns false for all other tiles
 	*/
 	public static boolean isRoad(int cxx, int czz, int lx, int lz) {
-		int plotSize = PlotConfiguration.intPlotSize + PlotConfiguration.intRoadWidth + 2;  // +2 for wall
 		if (
-				((modulus((cxx + lx), plotSize) < plotSize - 1) && (modulus((cxx + lx), plotSize) > plotSize - 2 - PlotConfiguration.intRoadWidth))
+				((modulus((cxx + lx), PlotConfiguration.intPlotCalculatedSize) < PlotConfiguration.intPlotCalculatedSize - 1) && (modulus((cxx + lx), PlotConfiguration.intPlotCalculatedSize) > PlotConfiguration.intPlotSize))
 				||
-				((modulus((czz + lz), plotSize) < plotSize - 1) && (modulus((czz + lz), plotSize) > plotSize - 2 - PlotConfiguration.intRoadWidth))
+				((modulus((czz + lz), PlotConfiguration.intPlotCalculatedSize) < PlotConfiguration.intPlotCalculatedSize - 1) && (modulus((czz + lz), PlotConfiguration.intPlotCalculatedSize) > PlotConfiguration.intPlotSize))
 			) {
 			return true;
 		}
@@ -41,11 +40,10 @@ public class PlotHelper {
 				returns false for all other tiles
 	*/
 	public static boolean isWall(int cxx, int czz, int lx, int lz) {
-		int plotSize = PlotConfiguration.intPlotSize + PlotConfiguration.intRoadWidth + 2;  // +2 for wall
 		if (
-				((modulus((cxx + lx), plotSize) == plotSize - 1) || (modulus((cxx + lx), plotSize) == plotSize - 2 - PlotConfiguration.intRoadWidth))
+				((modulus((cxx + lx), PlotConfiguration.intPlotCalculatedSize) == PlotConfiguration.intPlotCalculatedSize - 1) || (modulus((cxx + lx), PlotConfiguration.intPlotCalculatedSize) == PlotConfiguration.intPlotSize))
 				||
-				((modulus((czz + lz), plotSize) == plotSize - 1) || (modulus((czz + lz), plotSize) == plotSize - 2 - PlotConfiguration.intRoadWidth))
+				((modulus((czz + lz), PlotConfiguration.intPlotCalculatedSize) == PlotConfiguration.intPlotCalculatedSize - 1) || (modulus((czz + lz), PlotConfiguration.intPlotCalculatedSize) == PlotConfiguration.intPlotSize))
 			) {
 			// Wall also should not run on top of road
 			if (!isRoad(cxx, czz, lx, lz)) {
@@ -66,28 +64,12 @@ public class PlotHelper {
 	public static int getPX(Location location) {
 		int px;
 		px = ((int)StrictMath.floor(location.getX()/PlotConfiguration.intPlotCalculatedSize));
-		/*
-		if (location.getX() >= 0) {
-			px = (int)StrictMath.ceil(location.getX()/PlotConfiguration.intPlotCalculatedSize);
-			px = (px == 0) ? 1 : px;
-		} else {
-			px = ((int)StrictMath.floor(location.getX()/PlotConfiguration.intPlotCalculatedSize));
-		}
-		*/
 		return px;
 	}
 
 	public static int getPZ(Location location) {
 		int pz;
 		pz = ((int)StrictMath.floor(location.getZ()/PlotConfiguration.intPlotCalculatedSize));
-		/*
-		if (location.getZ() >= 0) {
-			pz = ((int)StrictMath.ceil(location.getZ()/PlotConfiguration.intPlotCalculatedSize));
-			pz = (pz == 0) ? 1 : pz;
-		} else {
-			pz = ((int)StrictMath.floor(location.getZ()/PlotConfiguration.intPlotCalculatedSize));
-		}
-		*/
 		return pz;
 	}
 }
