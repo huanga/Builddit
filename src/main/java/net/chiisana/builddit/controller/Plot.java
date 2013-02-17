@@ -9,6 +9,7 @@ import com.sk89q.worldedit.regions.RegionSelector;
 import net.chiisana.builddit.Builddit;
 import net.chiisana.builddit.model.PlotConfiguration;
 import net.chiisana.builddit.model.PlotModel;
+import net.chiisana.builddit.model.PlotRoadModel;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
@@ -19,6 +20,16 @@ import java.util.HashSet;
 
 public class Plot {
 	private PlotModel model;
+
+	private Plot plotWest;
+	private Plot plotEast;
+	private Plot plotNorth;
+	private Plot plotSouth;
+
+	private PlotRoadModel roadWest;
+	private PlotRoadModel roadEast;
+	private PlotRoadModel roadNorth;
+	private PlotRoadModel roadSouth;
 
 	public Plot() {
 		this.model = new PlotModel();
@@ -46,25 +57,21 @@ public class Plot {
 	}
 
 	public Location getBottom() {
-		int xCord = this.getPlotX() > 0 ? this.getPlotX() - 1 : this.getPlotX();    // We don't actually have 0
-		int zCord = this.getPlotZ() > 0 ? this.getPlotZ() - 1 : this.getPlotZ();
 		Location location = new Location(
 					this.getWorld(),
-					xCord  * PlotConfiguration.intPlotCalculatedSize,
+					this.getPlotX() * PlotConfiguration.intPlotCalculatedSize,
 					0,
-					zCord * PlotConfiguration.intPlotCalculatedSize
+					this.getPlotZ() * PlotConfiguration.intPlotCalculatedSize
 		);
 		return location;
 	}
 
 	public Location getTop() {
-		int xCord = this.getPlotX() > 0 ? this.getPlotX() - 1 : this.getPlotX();    // We don't actually have 0
-		int zCord = this.getPlotZ() > 0 ? this.getPlotZ() - 1 : this.getPlotZ();
 		Location location = new Location(
 					this.getWorld(),
-					((xCord+1) * PlotConfiguration.intPlotCalculatedSize) - 1,
+					((this.getPlotX()+1) * PlotConfiguration.intPlotCalculatedSize) - 1,
 					this.getWorld().getMaxHeight(),
-					((zCord+1) * PlotConfiguration.intPlotCalculatedSize) - 1
+					((this.getPlotZ()+1) * PlotConfiguration.intPlotCalculatedSize) - 1
 		);
 		return location;
 	}
@@ -387,4 +394,42 @@ public class Plot {
 			this.model.unauthorize(authorized);
 		}
 	}
+
+	public Plot getPlotWest() {
+		if (this.plotWest != null)
+		{
+			return this.plotWest;
+		}
+		this.plotWest = BuildditPlot.getInstance().getPlotAt(this.getWorld(), this.getPlotX() - 1, this.getPlotZ());
+		return this.plotWest;
+	}
+
+	public Plot getPlotEast() {
+		if (this.plotEast != null)
+		{
+			return this.plotEast;
+		}
+		this.plotEast = BuildditPlot.getInstance().getPlotAt(this.getWorld(), this.getPlotX() + 1, this.getPlotZ());
+		return this.plotEast;
+	}
+
+	public Plot getPlotNorth() {
+		if (this.plotNorth != null)
+		{
+			return this.plotNorth;
+		}
+		this.plotNorth = BuildditPlot.getInstance().getPlotAt(this.getWorld(), this.getPlotX(), this.getPlotZ() + 1);
+		return this.plotNorth;
+	}
+
+	public Plot getPlotSouth() {
+		if (this.plotSouth != null)
+		{
+			return this.plotSouth;
+		}
+		this.plotSouth = BuildditPlot.getInstance().getPlotAt(this.getWorld(), this.getPlotX(), this.getPlotZ() - 1);
+		return this.plotSouth;
+	}
+
+
 }
