@@ -590,7 +590,7 @@ public class Plot {
 		for (int x = 0; x < 7; x++) {
 			for (int z = 0; z < PlotConfiguration.intPlotCalculatedSize; z++) {
 				for (int y = PlotConfiguration.intPlotHeight; y < PlotConfiguration.intPlotHeight + 2; y++) {
-					counter += _removeRoadAt(x, y, z);
+					counter += _removeRoadAt((this.getPlotX()<<4) + x, y, (this.getPlotZ()<<4) + z);
 				}
 			}
 		}
@@ -604,7 +604,7 @@ public class Plot {
 		for (int x = PlotConfiguration.intPlotSize; x < PlotConfiguration.intPlotCalculatedSize; x++) {
 			for (int z = 0; z < PlotConfiguration.intPlotCalculatedSize; z++) {
 				for (int y = PlotConfiguration.intPlotHeight; y < PlotConfiguration.intPlotHeight + 2; y++) {
-					counter += _removeRoadAt(x, y, z);
+					counter += _removeRoadAt((this.getPlotX()<<4) + x, y, (this.getPlotZ()<<4) + z);
 				}
 			}
 		}
@@ -618,7 +618,7 @@ public class Plot {
 		for (int x = 0; x < PlotConfiguration.intPlotCalculatedSize; x++) {
 			for (int z = PlotConfiguration.intPlotSize; z < PlotConfiguration.intPlotCalculatedSize; z++) {
 				for (int y = PlotConfiguration.intPlotHeight; y < PlotConfiguration.intPlotHeight + 2; y++) {
-					counter += _removeRoadAt(x, y, z);
+					counter += _removeRoadAt((this.getPlotX()<<4) + x, y, (this.getPlotZ()<<4) + z);
 				}
 			}
 		}
@@ -633,7 +633,7 @@ public class Plot {
 		for (int x = 0; x < PlotConfiguration.intPlotCalculatedSize; x++) {
 			for (int z = 0; z < 7; z++) {
 				for (int y = PlotConfiguration.intPlotHeight; y < PlotConfiguration.intPlotHeight + 2; y++) {
-					counter += _removeRoadAt(x, y, z);
+					counter += _removeRoadAt((this.getPlotX()<<4) + x, y, (this.getPlotZ()<<4) + z);
 				}
 			}
 		}
