@@ -15,6 +15,11 @@ public class PlotModel {
 	private int plotX;
 	private int plotZ;
 
+	private boolean isNeighbourWest;
+	private boolean isNeighbourEast;
+	private boolean isNeighbourNorth;
+	private boolean isNeighbourSouth;
+
 	public int getPid() {
 		return pid;
 	}
@@ -73,5 +78,37 @@ public class PlotModel {
 
 	public HashSet<String> getAuthorized() {
 		return this.authorized;
+	}
+
+	public boolean isNeighbourWest() {
+		return isNeighbourWest;
+	}
+
+	public void setNeighbourWest(boolean neighbourWest) {
+		isNeighbourWest = neighbourWest;
+	}
+
+	public boolean isNeighbourEast() {
+		return isNeighbourEast;
+	}
+
+	public void setNeighbourEast(boolean neighbourEast) {
+		isNeighbourEast = neighbourEast;
+	}
+
+	public boolean isNeighbourNorth() {
+		return isNeighbourNorth;
+	}
+
+	public void setNeighbourNorth(boolean neighbourNorth) {
+		isNeighbourNorth = neighbourNorth;
+	}
+
+	public boolean isNeighbourSouth() {
+		return isNeighbourSouth;
+	}
+
+	public void setNeighbourSouth(boolean neighbourSouth) {
+		isNeighbourSouth = neighbourSouth;
 	}
 }

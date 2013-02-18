@@ -7,6 +7,8 @@ import com.sk89q.worldedit.masks.Mask;
 import com.sk89q.worldedit.regions.Region;
 import com.sk89q.worldedit.regions.RegionSelector;
 import net.chiisana.builddit.Builddit;
+import net.chiisana.builddit.helper.PlotHelper;
+import net.chiisana.builddit.model.Direction;
 import net.chiisana.builddit.model.PlotConfiguration;
 import net.chiisana.builddit.model.PlotModel;
 import org.bukkit.Location;
@@ -16,6 +18,7 @@ import org.bukkit.entity.Player;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashSet;
+import java.util.logging.Level;
 
 public class Plot {
 	private PlotModel model;
@@ -127,6 +130,7 @@ public class Plot {
 			}
 			if (dbsuccess) {
 				this.setOwner(claimant.getName());
+				this.updateNeighbours();
 				return 1;
 			} else {
 				return -1;
@@ -148,6 +152,7 @@ public class Plot {
 			}
 			this.setOwner("");
 			this.unauthorizeAll();
+			this.updateNeighbours();
 			return 1;
 		}
 		return 0;
@@ -345,7 +350,6 @@ public class Plot {
 			return -1;
 		} catch (NullPointerException e) {
 			// Plot not in database, this was not previously claimed.
-			return 1;
 		}
 		try {
 			String queryGetAuth = "SELECT player FROM builddit_authorization " +
@@ -362,6 +366,7 @@ public class Plot {
 		} catch (NullPointerException e) {
 			// Permission not in database; this is fine, new plots and owner-only plots will not have permissions
 		}
+		this.updateNeighbours();
 		return 1;
 	}
 
@@ -423,5 +428,83 @@ public class Plot {
 		}
 		this.plotSouth = BuildditPlot.getInstance().getPlotAt(this.getWorld(), this.getPlotX(), this.getPlotZ() - 1);
 		return this.plotSouth;
+	}
+
+	public boolean isRoadOnWestSide() {
+		return PlotHelper.isRoad(this.getPlotX(), this.getPlotZ(), 0, 0);
+	}
+
+	public boolean isRoadOnEastSide() {
+		return PlotHelper.isRoad(this.getPlotX(), this.getPlotZ(), 15, 0);
+	}
+
+	public boolean isRoadOnNorthSide() {
+		return PlotHelper.isRoad(this.getPlotX(), this.getPlotZ(), 0, 0);
+	}
+
+	public boolean isRoadOnSouthSide() {
+		return PlotHelper.isRoad(this.getPlotX(), this.getPlotZ(), 0, 15);
+	}
+
+	public boolean isNeighbourWest() {
+		return this.model.isNeighbourWest();
+	}
+
+	public boolean isNeighbourEast() {
+		return this.model.isNeighbourEast();
+	}
+
+	public boolean isNeighbourNorth() {
+		return this.model.isNeighbourNorth();
+	}
+
+	public boolean isNeighbourSouth() {
+		return this.model.isNeighbourSouth();
+	}
+
+	public void setNeighbourWest(boolean neighbourWest) {
+		this.model.setNeighbourWest(neighbourWest);
+	}
+
+	public void setNeighbourEast(boolean neighbourEast) {
+		this.model.setNeighbourEast(neighbourEast);
+	}
+
+	public void setNeighbourNorth(boolean neighbourNorth) {
+		this.model.setNeighbourNorth(neighbourNorth);
+	}
+
+	public void setNeighbourSouth(boolean neighbourSouth) {
+		this.model.setNeighbourSouth(neighbourSouth);
+	}
+
+	private void updateNeighbours() {
+		this.setNeighbourWest(this.getPlotWest().getOwner().equals(this.getOwner()));
+		this.getPlotWest().updateNeighbour(Direction.EAST); // Tell the neighbour to update itself.
+		this.setNeighbourEast(this.getPlotEast().getOwner().equals(this.getOwner()));
+		this.getPlotEast().updateNeighbour(Direction.WEST);
+		this.setNeighbourNorth(this.getPlotNorth().getOwner().equals(this.getOwner()));
+		this.getPlotNorth().updateNeighbour(Direction.SOUTH);
+		this.setNeighbourSouth(this.getPlotSouth().getOwner().equals(this.getOwner()));
+		this.getPlotSouth().updateNeighbour(Direction.NORTH);
+	}
+
+	public void updateNeighbour(Direction direction) {
+		switch(direction) {
+			case WEST:
+				this.setNeighbourWest(this.getPlotWest().getOwner().equals(this.getOwner()));
+				break;
+			case EAST:
+				this.setNeighbourEast(this.getPlotEast().getOwner().equals(this.getOwner()));
+				break;
+			case NORTH:
+				this.setNeighbourNorth(this.getPlotNorth().getOwner().equals(this.getOwner()));
+				break;
+			case SOUTH:
+				this.setNeighbourSouth(this.getPlotSouth().getOwner().equals(this.getOwner()));
+				break;
+			default:
+				Builddit.getInstance().getLogger().log(Level.INFO, "You should never see this. Something went wrong, blame developer.");
+		}
 	}
 }

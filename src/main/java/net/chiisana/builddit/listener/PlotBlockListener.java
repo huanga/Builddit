@@ -3,9 +3,11 @@ package net.chiisana.builddit.listener;
 import net.chiisana.builddit.controller.BuildditPlot;
 import net.chiisana.builddit.controller.Plot;
 import net.chiisana.builddit.helper.PlotHelper;
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -28,6 +30,26 @@ public class PlotBlockListener implements Listener {
 			{
 				event.getPlayer().sendMessage(plot.toString());
 			}
+		}
+		else if (event.getPlayer().getItemInHand().getType().equals(Material.STICK))
+		{
+			// Stick = Get neighbour plots, and road stats
+
+			Player player = event.getPlayer();
+			// currentPlot is where player is standing on.
+			Plot currentPlot = BuildditPlot.getInstance().getPlotAt(player.getLocation());
+
+			player.sendMessage("Neighbour Status:");
+			player.sendMessage("  West? " + (currentPlot.isNeighbourWest() ? ChatColor.GREEN + "True" : ChatColor.RED + "False"));
+			player.sendMessage("  East? " + (currentPlot.isNeighbourEast() ? ChatColor.GREEN + "True" : ChatColor.RED + "False"));
+			player.sendMessage("  North? " + (currentPlot.isNeighbourNorth() ? ChatColor.GREEN + "True" : ChatColor.RED + "False"));
+			player.sendMessage("  South? " + (currentPlot.isNeighbourSouth() ? ChatColor.GREEN + "True" : ChatColor.RED + "False"));
+
+			player.sendMessage("Road Status:");
+			player.sendMessage("  West? " + (currentPlot.isRoadOnWestSide() ? ChatColor.GREEN + "True" : ChatColor.RED + "False"));
+			player.sendMessage("  East? " + (currentPlot.isRoadOnEastSide() ? ChatColor.GREEN + "True" : ChatColor.RED + "False"));
+			player.sendMessage("  North? " + (currentPlot.isRoadOnNorthSide() ? ChatColor.GREEN + "True" : ChatColor.RED + "False"));
+			player.sendMessage("  South? " + (currentPlot.isRoadOnSouthSide() ? ChatColor.GREEN + "True" : ChatColor.RED + "False"));
 		}
 	}
 
