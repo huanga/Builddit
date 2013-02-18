@@ -369,6 +369,7 @@ public class Plot {
 
 		if (this.isOwned())
 		{
+			Builddit.getInstance().getLogger().log(Level.INFO, this.toString());
 			// On loading, only update neighbours if it is owned, so we don't check into infinity.
 			this.updateNeighbours();
 		}
