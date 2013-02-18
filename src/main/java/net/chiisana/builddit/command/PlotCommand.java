@@ -2,6 +2,8 @@ package net.chiisana.builddit.command;
 
 import net.chiisana.builddit.controller.BuildditPlot;
 import net.chiisana.builddit.controller.Plot;
+import net.chiisana.builddit.model.PlotConfiguration;
+import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -118,6 +120,7 @@ public class PlotCommand implements CommandExecutor {
 				{
 					player.sendMessage("You must specify who you are unauthorizing. Example usage: ");
 					player.sendMessage("/plot unauth huang_a  -- this unauthorizes huang_a to work on the plot.");
+					return true;
 				}
 
 				String target = args[1];
@@ -136,6 +139,19 @@ public class PlotCommand implements CommandExecutor {
 					return true;
 				}
 			}
+			else if (subCmd.equalsIgnoreCase("tp"))
+			{
+				if (args.length < 3)
+				{
+					player.sendMessage("You must specify both PlotX and PlotZ when teleporting.");
+					return true;
+				}
+
+				int PlotX = Integer.parseInt(args[1]);
+				int PlotZ = Integer.parseInt(args[2]);
+				player.teleport(new Location(player.getWorld(), PlotX * PlotConfiguration.intPlotCalculatedSize, 65, PlotZ * PlotConfiguration.intPlotCalculatedSize));
+				return true;
+			}
 			else if (subCmd.equalsIgnoreCase("list-auth"))
 			{
 				if (currentPlot.getOwner().equals(player.getName()))
@@ -152,6 +168,12 @@ public class PlotCommand implements CommandExecutor {
 					player.sendMessage(authorizedList);
 				}
 			}
+			else if (subCmd.equalsIgnoreCase("list-plot"))
+			{
+				for(Plot plot : BuildditPlot.getInstance().getPlotOwnedBy(player)) {
+					player.sendMessage(plot.toString());
+				}
+			}
 			else if (subCmd.equalsIgnoreCase("test-connected"))
 			{
 				HashSet<Plot> connectedPlots = currentPlot.getConnectedPlots();
@@ -161,6 +183,8 @@ public class PlotCommand implements CommandExecutor {
 					player.sendMessage(plot.toString());
 				}
 			}
+
+			player.sendMessage("Unknown subcommand. Please check /plot help for usage information.");
 		}
 		return false;
 	}

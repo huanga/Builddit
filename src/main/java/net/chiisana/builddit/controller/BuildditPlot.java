@@ -7,12 +7,16 @@ import net.chiisana.builddit.listener.PlotBlockListener;
 import net.chiisana.builddit.listener.PlotEntityListener;
 import net.chiisana.builddit.listener.PlotHangingListener;
 import net.chiisana.builddit.listener.PlotPlayerListener;
+import net.chiisana.util.MySQLUtil;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.logging.Level;
 
 public class BuildditPlot {
@@ -106,8 +110,36 @@ public class BuildditPlot {
 		}
 	}
 
+	public HashSet<Plot> getPlotOwnedBy(Player player) {
+		HashSet<Plot> plots = new HashSet<Plot>();
+		try
+		{
+			String queryPlotsOwnedBy = "" +
+					"SELECT world, plotx, plotz FROM builddit_plot " +
+					"WHERE " +
+					"   owner = \"" + player.getName() + "\"";
+			ResultSet rs = Builddit.getInstance().database.runSelectQuery(queryPlotsOwnedBy);
+			while (rs.next())
+			{
+				String world = rs.getString("world");
+				int px = rs.getInt("plotx");
+				int pz = rs.getInt("plotz");
+
+				plots.add(this.getPlotAt(Builddit.getInstance().getServer().getWorld(world), px, pz));
+			}
+		} catch (SQLException e) {
+			// Database seems to be down.
+			player.sendMessage("[Builddit Plot] Database seems to be down right now, request for owned plots failed.");
+		} catch (NullPointerException e) {
+			// No result
+			player.sendMessage("[Builddit Plot] " + player.getName() + " does not own any plots.");
+		}
+		return plots;
+	}
+
 	public void tellNotAuthorizedForPlot(Player player, Plot plot) {
-		if (plot.isOwned()) {
+		if (plot.isOwned())
+		{
 			player.sendMessage("[Builddit Plot] You are not authorized to work on this plot. Please contact " + plot.getOwner() + " for permission.");
 		} else {
 			player.sendMessage("[Builddit Plot] This plot is unclaimed. Claim it first before working on it.");
