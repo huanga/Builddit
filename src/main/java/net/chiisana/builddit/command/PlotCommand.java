@@ -167,12 +167,14 @@ public class PlotCommand implements CommandExecutor {
 					}
 					player.sendMessage(authorizedList);
 				}
+				return true;
 			}
 			else if (subCmd.equalsIgnoreCase("list-plot"))
 			{
 				for(Plot plot : BuildditPlot.getInstance().getPlotOwnedBy(player)) {
 					player.sendMessage(plot.toString());
 				}
+				return true;
 			}
 			else if (subCmd.equalsIgnoreCase("test-connected"))
 			{
@@ -182,6 +184,7 @@ public class PlotCommand implements CommandExecutor {
 				{
 					player.sendMessage(plot.toString());
 				}
+				return true;
 			}
 
 			player.sendMessage("Unknown subcommand. Please check /plot help for usage information.");

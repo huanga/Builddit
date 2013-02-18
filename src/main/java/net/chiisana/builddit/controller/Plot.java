@@ -86,7 +86,7 @@ public class Plot {
 						"   plotx = " + this.getPlotX() + ", " +
 						"   plotz = " + this.getPlotZ() + ", " +
 						"   owner = \"" + this.getOwner() + "\" " +
-						"ON DUPLICATE KEY UPDATE plotx=plotx;";
+						"ON DUPLICATE KEY UPDATE owner=\"" + this.getOwner() + "\";";
 				if (Builddit.getInstance().database.runUpdateQuery(querySavePlot) == -1)
 				{
 					dbsuccess = false;
