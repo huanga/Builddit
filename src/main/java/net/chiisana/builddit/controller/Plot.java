@@ -131,6 +131,35 @@ public class Plot {
 			if (dbsuccess) {
 				this.setOwner(claimant.getName());
 				this.updateNeighbours();
+
+				if (this.isNeighbourNorth())
+				{
+					// Remove road on North part of plot
+					this.removeRoadNorth();
+					// Remove road on South part of North plot
+					this.getPlotNorth().removeRoadSouth();
+				}
+				if (this.isNeighbourSouth())
+				{
+					// Remove road on South part of plot
+					this.removeRoadSouth();
+					// Remove road on North part of South plot
+					this.getPlotSouth().removeRoadNorth();
+				}
+				if (this.isNeighbourEast())
+				{
+					// Remove road on East part of plot
+					this.removeRoadEast();
+					// Remove road on West part of East plot
+					this.getPlotEast().removeRoadWest();
+				}
+				if (this.isNeighbourWest())
+				{
+					// Remove road on West part of plot
+					this.removeRoadWest();
+					// Remove road on East part of West plot
+					this.getPlotWest().removeRoadEast();
+				}
 				return 1;
 			} else {
 				return -1;
@@ -438,29 +467,29 @@ public class Plot {
 
 	public boolean isRoadOnWestSide() {
 		// if Road is on West side
-		boolean roadOnNorthWest = PlotHelper.isRoad(this.getPlotX(), this.getPlotZ() + 1, 0, -1);
+		boolean roadOnNorthWest = PlotHelper.isRoad(this.getPlotX(), this.getPlotZ(), 0, PlotConfiguration.intPlotCalculatedSize - 1);
 		boolean roadOnSouthWest = PlotHelper.isRoad(this.getPlotX(), this.getPlotZ(), 0, 0);
 		return (roadOnNorthWest && roadOnSouthWest);
 	}
 
 	public boolean isRoadOnEastSide() {
 		// if Road is on East side
-		boolean roadOnSouthEast = PlotHelper.isRoad(this.getPlotX() + 1, this.getPlotZ(), -1, 0);
-		boolean roadOnNorthEast = PlotHelper.isRoad(this.getPlotX() + 1, this.getPlotZ() + 1, -1, -1);
+		boolean roadOnSouthEast = PlotHelper.isRoad(this.getPlotX(), this.getPlotZ(), PlotConfiguration.intPlotCalculatedSize - 1, 0);
+		boolean roadOnNorthEast = PlotHelper.isRoad(this.getPlotX(), this.getPlotZ(), PlotConfiguration.intPlotCalculatedSize - 1, PlotConfiguration.intPlotCalculatedSize - 1);
 		return (roadOnNorthEast && roadOnSouthEast);
 	}
 
 	public boolean isRoadOnNorthSide() {
 		// if Road is on North side
-		boolean roadOnNorthWest = PlotHelper.isRoad(this.getPlotX(), this.getPlotZ() + 1, 0, -1);
-		boolean roadOnNorthEast = PlotHelper.isRoad(this.getPlotX() + 1, this.getPlotZ() + 1, -1, -1);
+		boolean roadOnNorthWest = PlotHelper.isRoad(this.getPlotX(), this.getPlotZ(), 0, PlotConfiguration.intPlotCalculatedSize - 1);
+		boolean roadOnNorthEast = PlotHelper.isRoad(this.getPlotX(), this.getPlotZ(), PlotConfiguration.intPlotCalculatedSize - 1, PlotConfiguration.intPlotCalculatedSize - 1);
 		return (roadOnNorthWest && roadOnNorthEast);
 	}
 
 	public boolean isRoadOnSouthSide() {
 		// if Road is on South side
 		boolean roadOnSouthWest = PlotHelper.isRoad(this.getPlotX(), this.getPlotZ(), 0, 0);
-		boolean roadOnSouthEast = PlotHelper.isRoad(this.getPlotX() + 1, this.getPlotZ(), -1, 0);
+		boolean roadOnSouthEast = PlotHelper.isRoad(this.getPlotX(), this.getPlotZ(), PlotConfiguration.intPlotCalculatedSize - 1, 0);
 		return (roadOnSouthWest && roadOnSouthEast);
 	}
 
@@ -524,5 +553,25 @@ public class Plot {
 			default:
 				Builddit.getInstance().getLogger().log(Level.INFO, "You should never see this. Something went wrong, blame developer.");
 		}
+	}
+
+	public void removeRoadWest()
+	{
+		// Removes road on west side of this plot
+	}
+
+	public void removeRoadEast()
+	{
+		// Removes road on east side of this plot
+	}
+
+	public void removeRoadNorth()
+	{
+		// Removes road on North side of this plot
+	}
+
+	public void removeRoadSouth()
+	{
+		// Removes road on South side of this plot
 	}
 }
