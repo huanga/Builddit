@@ -560,7 +560,6 @@ public class Plot {
 	{
 		int counter = 0;
 		Location cursor = new Location(this.getWorld(), (this.getPlotX()<<4) + x, y, (this.getPlotZ()<<4)+z);
-		Builddit.getInstance().getLogger().log(Level.INFO, "Checking " + cursor.toString() + "(" + cursor.getBlock().getType().name() + ")");
 
 		if (y == PlotConfiguration.intPlotHeight)
 		{
@@ -580,6 +579,8 @@ public class Plot {
 				cursor.getBlock().setType(Material.AIR);
 			}
 		}
+
+		cursor.getBlock().setType(Material.WOOL);
 		return counter;
 	}
 
