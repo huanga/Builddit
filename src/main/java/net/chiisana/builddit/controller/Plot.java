@@ -440,7 +440,7 @@ public class Plot {
 	}
 
 	public boolean isRoadOnEastSide() {
-		return PlotHelper.isRoad(this.getPlotX(), this.getPlotZ(), 15, 0);
+		return PlotHelper.isRoad(this.getPlotX(), this.getPlotZ(), PlotConfiguration.intPlotCalculatedSize - 1, 0);
 	}
 
 	public boolean isRoadOnNorthSide() {
@@ -448,7 +448,7 @@ public class Plot {
 	}
 
 	public boolean isRoadOnSouthSide() {
-		return PlotHelper.isRoad(this.getPlotX(), this.getPlotZ(), 0, 15);
+		return PlotHelper.isRoad(this.getPlotX(), this.getPlotZ(), 0, PlotConfiguration.intPlotCalculatedSize - 1);
 	}
 
 	public boolean isNeighbourWest() {
