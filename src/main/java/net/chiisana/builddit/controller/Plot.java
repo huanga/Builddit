@@ -436,19 +436,31 @@ public class Plot {
 	}
 
 	public boolean isRoadOnWestSide() {
-		return PlotHelper.isRoad(this.getPlotX(), this.getPlotZ(), 0, 0);
+		// if Road is on West side
+		boolean roadOnNorthWest = PlotHelper.isRoad(this.getPlotX(), this.getPlotZ() + 1, 0, -1);
+		boolean roadOnSouthWest = PlotHelper.isRoad(this.getPlotX(), this.getPlotZ(), 0, 0);
+		return (roadOnNorthWest && roadOnSouthWest);
 	}
 
 	public boolean isRoadOnEastSide() {
-		return PlotHelper.isRoad(this.getPlotX(), this.getPlotZ(), PlotConfiguration.intPlotCalculatedSize - 1, 0);
+		// if Road is on East side
+		boolean roadOnSouthEast = PlotHelper.isRoad(this.getPlotX() + 1, this.getPlotZ(), -1, 0);
+		boolean roadOnNorthEast = PlotHelper.isRoad(this.getPlotX() + 1, this.getPlotZ() + 1, -1, -1);
+		return (roadOnNorthEast && roadOnSouthEast);
 	}
 
 	public boolean isRoadOnNorthSide() {
-		return PlotHelper.isRoad(this.getPlotX(), this.getPlotZ(), 0, 0);
+		// if Road is on North side
+		boolean roadOnNorthWest = PlotHelper.isRoad(this.getPlotX(), this.getPlotZ() + 1, 0, -1);
+		boolean roadOnNorthEast = PlotHelper.isRoad(this.getPlotX() + 1, this.getPlotZ() + 1, -1, -1);
+		return (roadOnNorthWest && roadOnNorthEast);
 	}
 
 	public boolean isRoadOnSouthSide() {
-		return PlotHelper.isRoad(this.getPlotX(), this.getPlotZ(), 0, PlotConfiguration.intPlotCalculatedSize - 1);
+		// if Road is on South side
+		boolean roadOnSouthWest = PlotHelper.isRoad(this.getPlotX(), this.getPlotZ(), 0, 0);
+		boolean roadOnSouthEast = PlotHelper.isRoad(this.getPlotX() + 1, this.getPlotZ(), -1, 0);
+		return (roadOnSouthWest && roadOnSouthEast);
 	}
 
 	public boolean isNeighbourWest() {
