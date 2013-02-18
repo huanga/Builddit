@@ -366,7 +366,12 @@ public class Plot {
 		} catch (NullPointerException e) {
 			// Permission not in database; this is fine, new plots and owner-only plots will not have permissions
 		}
-		this.updateNeighbours();
+
+		if (this.isOwned())
+		{
+			// On loading, only update neighbours if it is owned, so we don't check into infinity.
+			this.updateNeighbours();
+		}
 		return 1;
 	}
 
