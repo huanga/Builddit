@@ -85,8 +85,8 @@ public class Plot {
 						"   world = \"" + this.getWorld().getName() + "\", " +
 						"   plotx = " + this.getPlotX() + ", " +
 						"   plotz = " + this.getPlotZ() + ", " +
-						"   owner = \"" + this.getOwner() + "\" " +
-						"ON DUPLICATE KEY UPDATE owner=\"" + this.getOwner() + "\";";
+						"   owner = \"" + claimant.getName() + "\" " +
+						"ON DUPLICATE KEY UPDATE owner=\"" + claimant.getName() + "\";";
 				if (Builddit.getInstance().database.runUpdateQuery(querySavePlot) == -1)
 				{
 					dbsuccess = false;
@@ -98,7 +98,7 @@ public class Plot {
 						"   world = \"" + this.getWorld().getName() + "\" " +
 						"   AND plotx = " + this.getPlotX() + " " +
 						"   AND plotz = " + this.getPlotZ() + " " +
-						"   AND owner = \"" + this.getOwner() + "\" " +
+						"   AND owner = \"" + claimant.getName() + "\" " +
 						"LIMIT 1;";
 				try {
 					ResultSet rs = Builddit.getInstance().database.runSelectQuery(queryPID);
@@ -120,7 +120,7 @@ public class Plot {
 						"   world = \"" + this.getWorld().getName() + "\", " +
 						"   plotx = " + this.getPlotX() + ", " +
 						"   plotz = " + this.getPlotZ() + ", " +
-						"   owner = \"" + this.getOwner() + "\" " +
+						"   owner = \"" + claimant.getName() + "\" " +
 						"WHERE " +
 						"   id = " + this.model.getPid();
 				if (Builddit.getInstance().database.runUpdateQuery(querySavePlot) == -1)
