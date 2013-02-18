@@ -12,6 +12,7 @@ import net.chiisana.builddit.model.Direction;
 import net.chiisana.builddit.model.PlotConfiguration;
 import net.chiisana.builddit.model.PlotModel;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 
@@ -555,23 +556,86 @@ public class Plot {
 		}
 	}
 
+	private int _removeRoadAt(int x, int y, int z)
+	{
+		int counter = 0;
+		Location cursor = new Location(this.getWorld(), (this.getPlotX()<<4) + x, y, (this.getPlotZ()<<4)+z);
+
+		if (y == PlotConfiguration.intPlotHeight)
+		{
+			// Road/Surface layer
+			if (cursor.getBlock().getType().equals(PlotConfiguration.materialRoadA))
+			{
+				counter++;
+				cursor.getBlock().setType(PlotConfiguration.materialPlotSurface);
+			}
+		}
+		if (y > PlotConfiguration.intPlotHeight)
+		{
+			// Walllayer
+			if (cursor.getBlock().getType().equals(PlotConfiguration.materialWall))
+			{
+				counter++;
+				cursor.getBlock().setType(Material.AIR);
+			}
+		}
+		return counter;
+	}
+
 	public void removeRoadWest()
 	{
 		// Removes road on west side of this plot
+		int counter = 0;
+		for (int x = 0; x < 7; x++) {
+			for (int z = 0; z < PlotConfiguration.intPlotCalculatedSize; z++) {
+				for (int y = PlotConfiguration.intPlotHeight; y < 2; y++) {
+					counter += _removeRoadAt(x, y, z);
+				}
+			}
+		}
+		Builddit.getInstance().getLogger().log(Level.INFO, "Cleared " + counter + " blocks on West side.");
 	}
 
 	public void removeRoadEast()
 	{
 		// Removes road on east side of this plot
+		int counter = 0;
+		for (int x = PlotConfiguration.intPlotSize; x < PlotConfiguration.intPlotCalculatedSize; x++) {
+			for (int z = 0; z < PlotConfiguration.intPlotCalculatedSize; z++) {
+				for (int y = PlotConfiguration.intPlotHeight; y < 2; y++) {
+					counter += _removeRoadAt(x, y, z);
+				}
+			}
+		}
+		Builddit.getInstance().getLogger().log(Level.INFO, "Cleared " + counter + " blocks on East side");
 	}
 
 	public void removeRoadNorth()
 	{
 		// Removes road on North side of this plot
+		int counter = 0;
+		for (int x = 0; x < PlotConfiguration.intPlotCalculatedSize; x++) {
+			for (int z = PlotConfiguration.intPlotSize; z < PlotConfiguration.intPlotCalculatedSize; z++) {
+				for (int y = PlotConfiguration.intPlotHeight; y < 2; y++) {
+					counter += _removeRoadAt(x, y, z);
+				}
+			}
+		}
+		Builddit.getInstance().getLogger().log(Level.INFO, "Cleared " + counter + " blocks on North side");
+
 	}
 
 	public void removeRoadSouth()
 	{
 		// Removes road on South side of this plot
+		int counter = 0;
+		for (int x = 0; x < PlotConfiguration.intPlotCalculatedSize; x++) {
+			for (int z = 0; z < 7; z++) {
+				for (int y = PlotConfiguration.intPlotHeight; y < 2; y++) {
+					counter += _removeRoadAt(x, y, z);
+				}
+			}
+		}
+		Builddit.getInstance().getLogger().log(Level.INFO, "Cleared " + counter + " blocks on South side");
 	}
 }
