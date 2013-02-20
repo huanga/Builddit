@@ -606,12 +606,13 @@ public class Plot {
 		// Removes road on east side of this plot
 		// pX = 0,0 => x = 32 ~ 38, z = 0 ~ 31
 		// pX = 1,0 => x = 71 ~ 77, z = 0 ~ 31
+		// pX = 0,1 => x = 32 ~ 38, z = 39 ~ 71;
 		// xStart = 7PX + 32*(PX+1)
 		// xEnd   = Xstart + 7
 		// zStart = PZ*(39)
 		// zEnd   = PZ*(39) + 32
 
-		int xStart = ((PlotConfiguration.intRoadWidth + 2) * this.getPlotX()) + (PlotConfiguration.intPlotCalculatedSize * (this.getPlotX()+1));
+		int xStart = ((PlotConfiguration.intRoadWidth + 2) * this.getPlotX()) + (PlotConfiguration.intPlotSize * (this.getPlotX()+1));
 		int xEnd   = xStart + PlotConfiguration.intRoadWidth + 2;
 		int zStart = this.getPlotZ() * PlotConfiguration.intPlotCalculatedSize;
 		int zEnd   = this.getPlotZ() * PlotConfiguration.intPlotCalculatedSize + PlotConfiguration.intPlotSize;
@@ -638,10 +639,10 @@ public class Plot {
 	{
 		// Removes road on North side of this plot
 		// Same as removeRoadEast, except swapped X Z
-		int zStart = ((PlotConfiguration.intRoadWidth + 2) * this.getPlotX()) + (PlotConfiguration.intPlotCalculatedSize * (this.getPlotX()+1));
+		int zStart = ((PlotConfiguration.intRoadWidth + 2) * this.getPlotZ()) + (PlotConfiguration.intPlotSize * (this.getPlotZ()+1));
 		int zEnd   = zStart + PlotConfiguration.intRoadWidth + 2;
-		int xStart = this.getPlotZ() * PlotConfiguration.intPlotCalculatedSize;
-		int xEnd   = this.getPlotZ() * PlotConfiguration.intPlotCalculatedSize + PlotConfiguration.intPlotSize;
+		int xStart = this.getPlotX() * PlotConfiguration.intPlotCalculatedSize;
+		int xEnd   = this.getPlotX() * PlotConfiguration.intPlotCalculatedSize + PlotConfiguration.intPlotSize;
 		Builddit.getInstance().getLogger().log(Level.INFO, "Removing road on North side: ");
 		Builddit.getInstance().getLogger().log(Level.INFO, "    PlotX: " + this.getPlotX() + ", PlotZ: " + this.getPlotZ());
 		Builddit.getInstance().getLogger().log(Level.INFO, "    Calculated Range: " + xStart + "," + zStart + " ~ " + xEnd + "," + zEnd);
