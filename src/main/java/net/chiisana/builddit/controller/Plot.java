@@ -3,9 +3,11 @@ package net.chiisana.builddit.controller;
 import com.sk89q.worldedit.*;
 import com.sk89q.worldedit.bukkit.WorldEditAPI;
 import com.sk89q.worldedit.bukkit.WorldEditPlugin;
+import com.sk89q.worldedit.data.DataException;
 import com.sk89q.worldedit.masks.Mask;
 import com.sk89q.worldedit.regions.Region;
 import com.sk89q.worldedit.regions.RegionSelector;
+import com.sk89q.worldedit.schematic.SchematicFormat;
 import net.chiisana.builddit.Builddit;
 import net.chiisana.builddit.helper.PlotHelper;
 import net.chiisana.builddit.model.Direction;
@@ -16,6 +18,8 @@ import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 
+import java.io.File;
+import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashSet;
@@ -243,6 +247,51 @@ public class Plot {
 				"   AND player = \"" + user + "\";";
 		Builddit.getInstance().database.runUpdateQuery(queryDeleteAuth);
 		this.model.unauthorize(user);
+	}
+
+	public String getSchematicLink(Player requester) {
+		WorldEditPlugin wePlugin = Builddit.getInstance().wePlugin;
+		WorldEditAPI weAPI = Builddit.getInstance().weAPI;
+
+		LocalPlayer player = wePlugin.wrapPlayer(requester);
+
+		Location location1 = this.getBottom();
+		Location location2 = this.getTop();
+
+		Vector vPos1 = new Vector(location1.getX(), location1.getY(), location1.getZ());
+		Vector vPos2 = new Vector(location2.getX(), location2.getY(), location2.getZ());
+
+		LocalSession session = weAPI.getSession(requester);
+		EditSession editSession = session.createEditSession(player);
+		RegionSelector regionSelector = session.getRegionSelector(editSession.getWorld());
+
+		regionSelector.selectPrimary(vPos1);
+		regionSelector.explainPrimarySelection(player, session, vPos1);
+		regionSelector.selectSecondary(vPos2);
+		regionSelector.explainSecondarySelection(player, session, vPos2);
+
+		String schematicFileName = this.getOwner() + "." + this.getWorld() + "." + this.getPlotX() + "." + this.getPlotZ() + ".schematic";
+		File schematicFile = new File("/tmp/" + schematicFileName);
+
+		try {
+			SchematicFormat format = SchematicFormat.getFormats().iterator().next();
+			format.save(session.getClipboard(), schematicFile);
+		} catch (IOException e) {
+			Builddit.getInstance().getLogger().log(Level.SEVERE, "IOException cannot create schematic file.");
+			return "Failed to write schematic file. Please contact server administrator.";
+		} catch (DataException e) {
+			Builddit.getInstance().getLogger().log(Level.SEVERE, "DataException invalid schematic content.");
+			return "Invalid schematic content. Please contact server administrator.";
+		} catch (EmptyClipboardException e) {
+			Builddit.getInstance().getLogger().log(Level.SEVERE, "EmptyClipboardException no region selected.");
+			return "You should never see this, blame developer.";
+		}
+
+		// TODO: Add information about this schematic file into database.
+		// TODO: Generate the actual link and send to user.
+
+
+		return "";
 	}
 
 	public boolean clear(Player clearer) {

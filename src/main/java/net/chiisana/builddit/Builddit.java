@@ -2,7 +2,6 @@ package net.chiisana.builddit;
 
 import com.sk89q.worldedit.bukkit.WorldEditAPI;
 import com.sk89q.worldedit.bukkit.WorldEditPlugin;
-import net.chiisana.builddit.command.BuildditCommand;
 import net.chiisana.builddit.command.PlotCommand;
 import net.chiisana.builddit.controller.BuildditPlot;
 import net.chiisana.builddit.generator.PlotGenerator;
@@ -66,8 +65,6 @@ public class Builddit extends JavaPlugin implements Listener {
 		// Register these after everything are loaded
 		wePlugin = (WorldEditPlugin) getServer().getPluginManager().getPlugin("WorldEdit");
 		weAPI = new WorldEditAPI(wePlugin);
-
-		getCommand("builddit").setExecutor(new BuildditCommand());
 
 		// Enable BuildditPlot
 		BuildditPlot.getInstance().onEnable();
