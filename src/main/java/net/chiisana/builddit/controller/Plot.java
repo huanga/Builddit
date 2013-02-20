@@ -140,25 +140,21 @@ public class Plot {
 				if (this.isNeighbourNorth())
 				{
 					// Remove road on North part of plot
-					Builddit.getInstance().getLogger().log(Level.INFO, "We have a neighbour north of us, removing road on North side.");
 					this.removeRoadNorth();
 				}
 				if (this.isNeighbourSouth())
 				{
 					// Remove road on North part of South plot
-					Builddit.getInstance().getLogger().log(Level.INFO, "We have a neighbour south of us, telling IT to remove road on ITS North side.");
 					this.getPlotSouth().removeRoadNorth();
 				}
 				if (this.isNeighbourEast())
 				{
 					// Remove road on East part of plot
-					Builddit.getInstance().getLogger().log(Level.INFO, "We have a neighbour east of us, removing road on East side.");
 					this.removeRoadEast();
 				}
 				if (this.isNeighbourWest())
 				{
 					// Remove road on East part of West plot
-					Builddit.getInstance().getLogger().log(Level.INFO, "We have a neighbour west of us, telling IT to remove road on ITS East side.");
 					this.getPlotWest().removeRoadEast();
 				}
 				return 1;
@@ -182,6 +178,26 @@ public class Plot {
 			}
 			this.setOwner("");
 			this.unauthorizeAll();
+			if (this.isNeighbourNorth())
+			{
+				// Remove road on North part of plot
+				this.placeRoadNorth(unclaimant);
+			}
+			if (this.isNeighbourSouth())
+			{
+				// Remove road on North part of South plot
+				this.getPlotSouth().placeRoadNorth(unclaimant);
+			}
+			if (this.isNeighbourEast())
+			{
+				// Remove road on East part of plot
+				this.placeRoadEast(unclaimant);
+			}
+			if (this.isNeighbourWest())
+			{
+				// Remove road on East part of West plot
+				this.getPlotWest().placeRoadEast(unclaimant);
+			}
 			this.updateNeighbours();
 			return 1;
 		}
@@ -293,38 +309,11 @@ public class Plot {
 	public boolean clear(Player clearer) {
 		if (this.getOwner().equals(clearer.getName()) || clearer.hasPermission("builddit.admin"))
 		{
-			WorldEditPlugin wePlugin = Builddit.getInstance().wePlugin;
-			WorldEditAPI weAPI = Builddit.getInstance().weAPI;
-
-			LocalPlayer player = wePlugin.wrapPlayer(clearer);
-
 			Location location1 = this.getBottom();
 			Location location2 = this.getTop();
 
-			Vector vPos1 = new Vector(location1.getX(), location1.getY(), location1.getZ());
-			Vector vPos2 = new Vector(location2.getX(), location2.getY(), location2.getZ());
-
-			LocalSession session = weAPI.getSession(clearer);
-			EditSession editSession = session.createEditSession(player);
-			RegionSelector regionSelector = session.getRegionSelector(editSession.getWorld());
-
-			regionSelector.selectPrimary(vPos1);
-			regionSelector.explainPrimarySelection(player, session, vPos1);
-			regionSelector.selectSecondary(vPos2);
-			regionSelector.explainSecondarySelection(player, session, vPos2);
-
-			try {
-				// Note: Lifted code from WorldEdit as there is no API for regenerating a selection
-				Region region = session.getSelection(player.getWorld());
-				Mask mask = session.getMask();
-				session.setMask(null);
-				player.getWorld().regenerate(region, editSession);
-				session.setMask(mask);
-				return true;
-			} catch (IncompleteRegionException e) {
-				// This should never happen as we've set vPos1 and vPos2 automatically in code.
-				return false;
-			}
+			this._regenerateArea(clearer, (int)location1.getX(), (int)location2.getX(), (int)location1.getZ(), (int)location2.getZ());
+			return true;
 		}
 		return false;
 	}
@@ -653,5 +642,59 @@ public class Plot {
 		}
 
 		Builddit.getInstance().getLogger().log(Level.INFO, "Replaced " + counter + " blocks for building.");
+	}
+
+	private void _regenerateArea(Player requester, int xStart, int xEnd, int zStart, int zEnd)
+	{
+		WorldEditPlugin wePlugin = Builddit.getInstance().wePlugin;
+		WorldEditAPI weAPI = Builddit.getInstance().weAPI;
+
+		LocalPlayer player = wePlugin.wrapPlayer(requester);
+
+		Location location1 = new Location(this.getWorld(), xStart, 0, zStart);
+		Location location2 = new Location(this.getWorld(), xEnd, 0, zEnd);
+
+		Vector vPos1 = new Vector(location1.getX(), location1.getY(), location1.getZ());
+		Vector vPos2 = new Vector(location2.getX(), location2.getY(), location2.getZ());
+
+		LocalSession session = weAPI.getSession(requester);
+		EditSession editSession = session.createEditSession(player);
+		RegionSelector regionSelector = session.getRegionSelector(editSession.getWorld());
+
+		regionSelector.selectPrimary(vPos1);
+		regionSelector.explainPrimarySelection(player, session, vPos1);
+		regionSelector.selectSecondary(vPos2);
+		regionSelector.explainSecondarySelection(player, session, vPos2);
+
+		try {
+			// Note: Lifted code from WorldEdit as there is no API for regenerating a selection
+			Region region = session.getSelection(player.getWorld());
+			Mask mask = session.getMask();
+			session.setMask(null);
+			player.getWorld().regenerate(region, editSession);
+			session.setMask(mask);
+		} catch (IncompleteRegionException e) {
+			// This should never happen as we've set vPos1 and vPos2 automatically in code.
+		}
+	}
+
+	public void placeRoadEast(Player player)
+	{
+		int xStart = ((PlotConfiguration.intRoadWidth + 2) * this.getPlotX()) + (PlotConfiguration.intPlotSize * (this.getPlotX()+1));
+		int xEnd   = xStart + PlotConfiguration.intRoadWidth + 2;
+		int zStart = this.getPlotZ() * PlotConfiguration.intPlotCalculatedSize;
+		int zEnd   = this.getPlotZ() * PlotConfiguration.intPlotCalculatedSize + PlotConfiguration.intPlotSize;
+
+		this._regenerateArea(player, xStart, xEnd, zStart, zEnd);
+	}
+
+	public void placeRoadNorth(Player player)
+	{
+		int zStart = ((PlotConfiguration.intRoadWidth + 2) * this.getPlotZ()) + (PlotConfiguration.intPlotSize * (this.getPlotZ()+1));
+		int zEnd   = zStart + PlotConfiguration.intRoadWidth + 2;
+		int xStart = this.getPlotX() * PlotConfiguration.intPlotCalculatedSize;
+		int xEnd   = this.getPlotX() * PlotConfiguration.intPlotCalculatedSize + PlotConfiguration.intPlotSize;
+
+		this._regenerateArea(player, xStart, xEnd, zStart, zEnd);
 	}
 }
