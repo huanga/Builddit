@@ -616,9 +616,6 @@ public class Plot {
 		int xEnd   = xStart + PlotConfiguration.intRoadWidth + 2;
 		int zStart = this.getPlotZ() * PlotConfiguration.intPlotCalculatedSize;
 		int zEnd   = this.getPlotZ() * PlotConfiguration.intPlotCalculatedSize + PlotConfiguration.intPlotSize;
-		Builddit.getInstance().getLogger().log(Level.INFO, "Removing road on East side: ");
-		Builddit.getInstance().getLogger().log(Level.INFO, "    PlotX: " + this.getPlotX() + ", PlotZ: " + this.getPlotZ());
-		Builddit.getInstance().getLogger().log(Level.INFO, "    Calculated Range: " + xStart + "," + zStart + " ~ " + xEnd + "," + zEnd);
 
 		int counter = 0;
 		for (int x = xStart; x < xEnd; x++)
@@ -643,9 +640,6 @@ public class Plot {
 		int zEnd   = zStart + PlotConfiguration.intRoadWidth + 2;
 		int xStart = this.getPlotX() * PlotConfiguration.intPlotCalculatedSize;
 		int xEnd   = this.getPlotX() * PlotConfiguration.intPlotCalculatedSize + PlotConfiguration.intPlotSize;
-		Builddit.getInstance().getLogger().log(Level.INFO, "Removing road on North side: ");
-		Builddit.getInstance().getLogger().log(Level.INFO, "    PlotX: " + this.getPlotX() + ", PlotZ: " + this.getPlotZ());
-		Builddit.getInstance().getLogger().log(Level.INFO, "    Calculated Range: " + xStart + "," + zStart + " ~ " + xEnd + "," + zEnd);
 
 		int counter = 0;
 		for (int x = xStart; x < xEnd; x++)

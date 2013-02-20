@@ -67,7 +67,6 @@ public class PlotCommand implements CommandExecutor {
 			}
 			if (subCmd.equalsIgnoreCase("claim"))
 			{
-				Builddit.getInstance().getLogger().log(Level.INFO, "Player location: " + player.getLocation().toString());
 				String result = this._claim(currentPlot, player);
 				player.sendMessage(result);
 				return true;
