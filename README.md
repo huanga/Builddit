@@ -17,6 +17,7 @@ Installation
 1. Modify configuration files to include database login information
 1. Create the database tables:
 
+    ```sql
     CREATE TABLE `builddit_plot` (
      `id` int(10) NOT NULL AUTO_INCREMENT,
      `world` varchar(32) NOT NULL,
@@ -35,6 +36,7 @@ Installation
      UNIQUE KEY `pid-player` (`pid`,`player`)
      KEY `pid` (`pid`)
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+    ```
 1. Edit Bukkit.yml, and set the world's generator to "Builddit"
 1. Delete or rename existing world
 1. Start server
