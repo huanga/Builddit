@@ -652,7 +652,7 @@ public class Plot {
 		LocalPlayer player = wePlugin.wrapPlayer(requester);
 
 		Location location1 = new Location(this.getWorld(), xStart, 0, zStart);
-		Location location2 = new Location(this.getWorld(), xEnd, 0, zEnd);
+		Location location2 = new Location(this.getWorld(), xEnd, 256, zEnd);
 
 		Vector vPos1 = new Vector(location1.getX(), location1.getY(), location1.getZ());
 		Vector vPos2 = new Vector(location2.getX(), location2.getY(), location2.getZ());
