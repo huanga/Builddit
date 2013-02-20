@@ -21,7 +21,7 @@ public class Builddit extends JavaPlugin implements Listener {
 	public WorldEditAPI weAPI;
 	public MySQLUtil database;
 
-	public static Builddit instance;
+	private static Builddit instance;
 
 	public void onDisable() {
 		BuildditPlot.getInstance().onDisable();
