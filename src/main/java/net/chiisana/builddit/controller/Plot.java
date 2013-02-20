@@ -140,21 +140,25 @@ public class Plot {
 				if (this.isNeighbourNorth())
 				{
 					// Remove road on North part of plot
+					Builddit.getInstance().getLogger().log(Level.INFO, "We have a neighbour north of us, removing road on North side.");
 					this.removeRoadNorth();
 				}
 				if (this.isNeighbourSouth())
 				{
 					// Remove road on North part of South plot
+					Builddit.getInstance().getLogger().log(Level.INFO, "We have a neighbour south of us, telling IT to remove road on ITS North side.");
 					this.getPlotSouth().removeRoadNorth();
 				}
 				if (this.isNeighbourEast())
 				{
 					// Remove road on East part of plot
+					Builddit.getInstance().getLogger().log(Level.INFO, "We have a neighbour east of us, removing road on East side.");
 					this.removeRoadEast();
 				}
 				if (this.isNeighbourWest())
 				{
 					// Remove road on East part of West plot
+					Builddit.getInstance().getLogger().log(Level.INFO, "We have a neighbour west of us, telling IT to remove road on ITS East side.");
 					this.getPlotWest().removeRoadEast();
 				}
 				return 1;
@@ -611,6 +615,9 @@ public class Plot {
 		int xEnd   = xStart + PlotConfiguration.intRoadWidth + 2;
 		int zStart = this.getPlotZ() * PlotConfiguration.intPlotCalculatedSize;
 		int zEnd   = this.getPlotZ() * PlotConfiguration.intPlotCalculatedSize + PlotConfiguration.intPlotSize;
+		Builddit.getInstance().getLogger().log(Level.INFO, "Removing road on East side: ");
+		Builddit.getInstance().getLogger().log(Level.INFO, "    PlotX: " + this.getPlotX() + ", PlotZ: " + this.getPlotZ());
+		Builddit.getInstance().getLogger().log(Level.INFO, "    Calculated Range: " + xStart + "," + zStart + " ~ " + xEnd + "," + zEnd);
 
 		int counter = 0;
 		for (int x = xStart; x < xEnd; x++)
@@ -624,7 +631,7 @@ public class Plot {
 			}
 		}
 
-		Builddit.getInstance().getLogger().log(Level.INFO, "Replaced " + counter + " blocks for building.");
+
 	}
 
 	public void removeRoadNorth()
@@ -635,6 +642,9 @@ public class Plot {
 		int zEnd   = zStart + PlotConfiguration.intRoadWidth + 2;
 		int xStart = this.getPlotZ() * PlotConfiguration.intPlotCalculatedSize;
 		int xEnd   = this.getPlotZ() * PlotConfiguration.intPlotCalculatedSize + PlotConfiguration.intPlotSize;
+		Builddit.getInstance().getLogger().log(Level.INFO, "Removing road on North side: ");
+		Builddit.getInstance().getLogger().log(Level.INFO, "    PlotX: " + this.getPlotX() + ", PlotZ: " + this.getPlotZ());
+		Builddit.getInstance().getLogger().log(Level.INFO, "    Calculated Range: " + xStart + "," + zStart + " ~ " + xEnd + "," + zEnd);
 
 		int counter = 0;
 		for (int x = xStart; x < xEnd; x++)

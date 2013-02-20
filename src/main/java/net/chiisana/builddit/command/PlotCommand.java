@@ -1,5 +1,6 @@
 package net.chiisana.builddit.command;
 
+import net.chiisana.builddit.Builddit;
 import net.chiisana.builddit.controller.BuildditPlot;
 import net.chiisana.builddit.controller.Plot;
 import net.chiisana.builddit.model.PlotConfiguration;
@@ -10,6 +11,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.util.HashSet;
+import java.util.logging.Level;
 
 public class PlotCommand implements CommandExecutor {
 	@Override
@@ -65,6 +67,7 @@ public class PlotCommand implements CommandExecutor {
 			}
 			if (subCmd.equalsIgnoreCase("claim"))
 			{
+				Builddit.getInstance().getLogger().log(Level.INFO, "Player location: " + player.getLocation().toString());
 				String result = this._claim(currentPlot, player);
 				player.sendMessage(result);
 				return true;
