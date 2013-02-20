@@ -597,7 +597,6 @@ public class Plot {
 			}
 		}
 
-		cursor.getBlock().setType(Material.WOOL);
 		return counter;
 	}
 
