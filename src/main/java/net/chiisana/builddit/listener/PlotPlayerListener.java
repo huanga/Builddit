@@ -32,31 +32,31 @@ public class PlotPlayerListener implements Listener {
 	@EventHandler(priority = EventPriority.LOW)
 	public void onPlayerMove(PlayerMoveEvent event) {
 		// Love it or hate it, we need to track player's location to update the mask automatically :/
+
+		// Quick way to check if player actually moved far enough for us to care
+		if (
+				(event.getFrom().getBlockX() == event.getTo().getBlockX())
+				&&
+				(event.getFrom().getBlockZ() == event.getTo().getBlockZ())
+				&&
+				(event.getFrom().getWorld() == event.getTo().getWorld())
+			)
+		{
+			// Player didn't really move enough for us to care
+			return;
+		}
+
 		Location from = event.getFrom();
 		Location to = event.getTo();
 
-		boolean updateMask = false;
-
-		if (!from.getWorld().equals(to.getWorld()))
-		{
-			// Changing world, definitely update WE mask
-			updateMask = true;
-		}
-
 		Plot plotFrom = BuildditPlot.getInstance().getPlotAt(from);
 		Plot plotTo = BuildditPlot.getInstance().getPlotAt(to);
-		if (!from.getBlock().equals(to.getBlock()))
-		{
-			// Player is actually moving, check if we need to update mask
-			if (!plotFrom.toString().equals(plotTo.toString()))
-			{
-				updateMask = true;
-			}
-		}
 
-		Player player = event.getPlayer();
-		if (updateMask)
+		// Player is actually moving between plots, check if we need to update mask
+		if (!plotFrom.toString().equals(plotTo.toString()))
 		{
+			Player player = event.getPlayer();
+
 			if (plotTo.isAuthorizedFor(player.getName()))
 			{
 				// Only update if they are authorized in the destination
