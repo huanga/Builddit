@@ -13,6 +13,34 @@ import net.chiisana.builddit.controller.Plot;
 import org.bukkit.entity.Player;
 
 public class WorldEditHelper {
+	public static void removeMask(Player player, Plot plot) {
+		// Removes old region masks from EditSession's mask; plot is "old plot" to remove for
+		WorldEditPlugin wePlugin = Builddit.getInstance().wePlugin;
+		WorldEditAPI weAPI = Builddit.getInstance().weAPI;
+
+		LocalPlayer localPlayer = wePlugin.wrapPlayer(player);
+		LocalSession session = weAPI.getSession(player);
+
+		if (session.getMask() instanceof CombinedMask)
+		{
+			// really only need to do things if the old mask is already a combined mask
+			CombinedMask mask = (CombinedMask)session.getMask();
+
+			for (Plot connectedPlot : plot.getConnectedPlots())
+			{
+				Vector v1 = new Vector(connectedPlot.getBottom().getX(), connectedPlot.getBottom().getY(), connectedPlot.getBottom().getZ());
+				Vector v2 = new Vector(connectedPlot.getTop().getX(), connectedPlot.getTop().getY(), connectedPlot.getTop().getZ());
+
+				CuboidRegion cuboidRegion = new CuboidRegion(localPlayer.getWorld(), v1, v2);
+				RegionMask regionMask = new RegionMask(cuboidRegion);
+
+				mask.remove(regionMask);
+			}
+
+			session.setMask(mask);
+		}
+	}
+
 	public static void setMask(Player player, Plot plot) {
 		// Adds relevant plots to the current EditSession's mask
 		WorldEditPlugin wePlugin = Builddit.getInstance().wePlugin;
