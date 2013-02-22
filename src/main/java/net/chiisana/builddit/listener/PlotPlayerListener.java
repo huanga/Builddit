@@ -46,22 +46,19 @@ public class PlotPlayerListener implements Listener {
 			return;
 		}
 
-		Location from = event.getFrom();
-		Location to = event.getTo();
-
-		Plot plotFrom = BuildditPlot.getInstance().getPlotAt(from);
-		Plot plotTo = BuildditPlot.getInstance().getPlotAt(to);
+		Plot from = BuildditPlot.getInstance().getPlotAt(event.getFrom());
+		Plot to = BuildditPlot.getInstance().getPlotAt(event.getTo());
 
 		// Player is actually moving between plots, check if we need to update mask
-		if (!plotFrom.toString().equals(plotTo.toString()))
+		if (!from.toString().equals(to.toString()))
 		{
 			Player player = event.getPlayer();
 
-			if (plotTo.isAuthorizedFor(player.getName()))
+			if (from.isAuthorizedFor(player.getName()))
 			{
 				// Only update if they are authorized in the destination
-				WorldEditHelper.removeMask(player, plotFrom);
-				WorldEditHelper.setMask(player, plotTo);
+				WorldEditHelper.removeMask(player, from);
+				WorldEditHelper.setMask(player, to);
 			}
 		}
 	}
