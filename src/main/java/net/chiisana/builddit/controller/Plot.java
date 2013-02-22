@@ -111,23 +111,21 @@ public class Plot {
 	}
 
 	public Location getBottom() {
-		Location location = new Location(
+		return(new Location(
 					this.getWorld(),
 					this.getPlotX() * PlotConfiguration.intPlotCalculatedSize,
 					0,
 					this.getPlotZ() * PlotConfiguration.intPlotCalculatedSize
-		);
-		return location;
+		));
 	}
 
 	public Location getTop() {
-		Location location = new Location(
+		return (new Location(
 					this.getWorld(),
 					((this.getPlotX()+1) * PlotConfiguration.intPlotCalculatedSize) - 1,
 					this.getWorld().getMaxHeight(),
 					((this.getPlotZ()+1) * PlotConfiguration.intPlotCalculatedSize) - 1
-		);
-		return location;
+		));
 	}
 
 	public int claim(Player claimant) {

@@ -15,14 +15,11 @@ public class PlotHelper {
 				returns false for all other tiles
 	*/
 	public static boolean isRoad(int cxx, int czz, int lx, int lz) {
-		if (
+		return (
 				((modulus((cxx + lx), PlotConfiguration.intPlotCalculatedSize) < PlotConfiguration.intPlotCalculatedSize - 1) && (modulus((cxx + lx), PlotConfiguration.intPlotCalculatedSize) > PlotConfiguration.intPlotSize))
 				||
 				((modulus((czz + lz), PlotConfiguration.intPlotCalculatedSize) < PlotConfiguration.intPlotCalculatedSize - 1) && (modulus((czz + lz), PlotConfiguration.intPlotCalculatedSize) > PlotConfiguration.intPlotSize))
-			) {
-			return true;
-		}
-		return false;
+			);
 	}
 
 	public static boolean isRoad(int x, int z) {
