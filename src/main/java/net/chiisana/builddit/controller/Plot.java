@@ -9,7 +9,6 @@ import com.sk89q.worldedit.regions.Region;
 import com.sk89q.worldedit.regions.RegionSelector;
 import com.sk89q.worldedit.schematic.SchematicFormat;
 import net.chiisana.builddit.Builddit;
-import net.chiisana.builddit.helper.PlotHelper;
 import net.chiisana.builddit.helper.WorldEditHelper;
 import net.chiisana.builddit.model.Direction;
 import net.chiisana.builddit.model.PlotConfiguration;

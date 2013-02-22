@@ -2,9 +2,7 @@ package net.chiisana.builddit.listener;
 
 import net.chiisana.builddit.controller.BuildditPlot;
 import net.chiisana.builddit.controller.Plot;
-import net.chiisana.builddit.helper.PlotHelper;
 import net.chiisana.builddit.helper.WorldEditHelper;
-import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;

@@ -1,6 +1,5 @@
 package net.chiisana.builddit.generator;
 
-import net.chiisana.builddit.Builddit;
 import net.chiisana.builddit.helper.PlotHelper;
 import net.chiisana.builddit.model.PlotConfiguration;
 import org.bukkit.Location;
@@ -12,7 +11,6 @@ import org.bukkit.generator.ChunkGenerator;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
-import java.util.logging.Level;
 
 public class PlotGenerator extends ChunkGenerator {
 	@Override

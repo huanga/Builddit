@@ -1,6 +1,5 @@
 package net.chiisana.builddit.listener;
 
-import net.chiisana.builddit.Builddit;
 import net.chiisana.builddit.controller.BuildditPlot;
 import net.chiisana.builddit.controller.Plot;
 import org.bukkit.entity.LivingEntity;
