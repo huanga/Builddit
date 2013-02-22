@@ -368,34 +368,6 @@ public class Plot {
 
 	public int load() {
 		// Attempt to load this Plot from MySQL
-		// Authorization is handled via authorize/unauthorize
-
-		/* Tables
-			builddit_plot
-			----------------------------------------------------------------------------------------------------
-            CREATE TABLE `builddit_plot` (
-			 `id` int(10) NOT NULL AUTO_INCREMENT,
-			 `world` varchar(32) NOT NULL,
-			 `plotx` int(10) NOT NULL,
-			 `plotz` int(10) NOT NULL,
-			 `owner` varchar(24) NOT NULL,
-			 PRIMARY KEY (`id`),
-			 UNIQUE KEY `plot` (`world`,`plotx`,`plotz`)
-			) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-			builddit_authorization
-			----------------------------------------------------------------------------------------------------
-			CREATE TABLE `builddit_authorization` (
-			 `id` int(10) NOT NULL AUTO_INCREMENT,
-			 `pid` int(10) NOT NULL,
-			 `player` varchar(24) NOT NULL,
-			 PRIMARY KEY (`id`),
-			 UNIQUE KEY `pid-player` (`pid`,`player`)
-			 KEY `pid` (`pid`)
-			) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-		 */
-
-
 		try {
 			String queryPlotInfo = "SELECT id, owner FROM builddit_plot " +
 					"WHERE " +
