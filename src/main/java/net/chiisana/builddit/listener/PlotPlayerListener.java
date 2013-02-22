@@ -16,8 +16,7 @@ import org.bukkit.event.player.PlayerShearEntityEvent;
 public class PlotPlayerListener implements Listener {
 	@EventHandler(priority = EventPriority.NORMAL)
 	public void onPlayerShearEntityEvent(PlayerShearEntityEvent event) {
-		Location entityLocation = event.getEntity().getLocation();
-		Plot plot = BuildditPlot.getInstance().getPlotAt(entityLocation);
+		Plot plot = BuildditPlot.getInstance().getPlotAt(event.getEntity().getLocation());
 		if (plot.isAuthorizedFor(event.getPlayer().getName()))
 		{
 			return;
