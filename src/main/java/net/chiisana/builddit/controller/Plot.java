@@ -10,6 +10,7 @@ import com.sk89q.worldedit.regions.RegionSelector;
 import com.sk89q.worldedit.schematic.SchematicFormat;
 import net.chiisana.builddit.Builddit;
 import net.chiisana.builddit.helper.PlotHelper;
+import net.chiisana.builddit.helper.WorldEditHelper;
 import net.chiisana.builddit.model.Direction;
 import net.chiisana.builddit.model.PlotConfiguration;
 import net.chiisana.builddit.model.PlotModel;
@@ -56,6 +57,58 @@ public class Plot {
 
 	public World getWorld() {
 		return this.model.getWorld();
+	}
+
+	public Location getSelectionBottom() {
+		// Note: Returned location may NOT be actually in the plot, be careful and use masks on WE!
+		Plot plotLowestPX = this;
+		Plot plotLowestPZ = this;
+		int lowestPX = this.getPlotX();
+		int lowestPZ = this.getPlotZ();
+		for (Plot plot : this.getConnectedPlots())
+		{
+			if (plot.getPlotX() < lowestPX)
+			{
+				plotLowestPX = plot;
+			}
+
+			if (plot.getPlotZ() < lowestPZ)
+			{
+				plotLowestPZ = plot;
+			}
+		}
+		return (new Location(
+				this.getWorld(),
+				plotLowestPX.getBottom().getX(),
+				0,
+				plotLowestPZ.getBottom().getZ()
+		));
+	}
+
+	public Location getSelectionTop() {
+		// Note: Returned location may NOT be actually in the plot, be careful and use masks on WE!
+		Plot plotHighestPX = this;
+		Plot plotHighestPZ = this;
+		int highestPX = this.getPlotX();
+		int highestPZ = this.getPlotZ();
+		for (Plot plot : this.getConnectedPlots())
+		{
+			if (plot.getPlotX() > highestPX)
+			{
+				plotHighestPX = plot;
+			}
+
+			if (plot.getPlotZ() > highestPZ)
+			{
+				plotHighestPZ = plot;
+			}
+		}
+		return (new Location(
+				this.getWorld(),
+				plotHighestPX.getTop().getX(),
+				0,
+				plotHighestPZ.getTop().getZ()
+		));
 	}
 
 	public Location getBottom() {
@@ -267,8 +320,8 @@ public class Plot {
 
 		LocalPlayer player = wePlugin.wrapPlayer(requester);
 
-		Location location1 = this.getBottom();
-		Location location2 = this.getTop();
+		Location location1 = this.getSelectionBottom();
+		Location location2 = this.getSelectionTop();
 
 		Vector vPos1 = new Vector(location1.getX(), location1.getY(), location1.getZ());
 		Vector vPos2 = new Vector(location2.getX(), location2.getY(), location2.getZ());
@@ -281,6 +334,9 @@ public class Plot {
 		regionSelector.explainPrimarySelection(player, session, vPos1);
 		regionSelector.selectSecondary(vPos2);
 		regionSelector.explainSecondarySelection(player, session, vPos2);
+
+		// Don't give them stuff from neighbour plots
+		WorldEditHelper.setMask(requester, this);
 
 		String schematicFileName = this.getOwner() + "." + this.getWorld() + "." + this.getPlotX() + "." + this.getPlotZ() + ".schematic";
 		File schematicFile = new File("/tmp/" + schematicFileName);
