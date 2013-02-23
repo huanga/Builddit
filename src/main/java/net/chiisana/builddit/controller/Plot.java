@@ -587,9 +587,8 @@ public class Plot {
 		}
 	}
 
-	private int _removeRoadAt(int x, int y, int z)
+	private void _removeRoadAt(int x, int y, int z)
 	{
-		int counter = 0;
 		Location cursor = new Location(this.getWorld(), x, y, z);
 
 		if (y == PlotConfiguration.intPlotHeight)
@@ -597,7 +596,6 @@ public class Plot {
 			// Road/Surface layer
 			if (cursor.getBlock().getType().equals(PlotConfiguration.materialRoadA))
 			{
-				counter++;
 				cursor.getBlock().setType(PlotConfiguration.materialPlotSurface);
 			}
 		}
@@ -606,12 +604,9 @@ public class Plot {
 			// Wall layer
 			if (cursor.getBlock().getType().equals(PlotConfiguration.materialWall))
 			{
-				counter++;
 				cursor.getBlock().setType(Material.AIR);
 			}
 		}
-
-		return counter;
 	}
 
 	public void removeRoadEast()
@@ -630,19 +625,23 @@ public class Plot {
 		int zStart = this.getPlotZ() * PlotConfiguration.intPlotCalculatedSize;
 		int zEnd   = this.getPlotZ() * PlotConfiguration.intPlotCalculatedSize + PlotConfiguration.intPlotSize;
 
-		int counter = 0;
 		for (int x = xStart; x < xEnd; x++)
 		{
 			for (int z = zStart; z < zEnd; z++)
 			{
 				for (int y = PlotConfiguration.intPlotHeight; y < PlotConfiguration.intPlotHeight + 2; y++)
 				{
-					counter += this._removeRoadAt(x, y, z);
+					this._removeRoadAt(x, y, z);
 				}
 			}
 		}
 
-
+		this.model.setEastRoadRemoved(true);
+		if (this.model.isNorthRoadRemoved())
+		{
+			// If other road was removed, we'd also need to remove center
+			this.removeRoadCenter();
+		}
 	}
 
 	public void removeRoadNorth()
@@ -654,19 +653,43 @@ public class Plot {
 		int xStart = this.getPlotX() * PlotConfiguration.intPlotCalculatedSize;
 		int xEnd   = this.getPlotX() * PlotConfiguration.intPlotCalculatedSize + PlotConfiguration.intPlotSize;
 
-		int counter = 0;
 		for (int x = xStart; x < xEnd; x++)
 		{
 			for (int z = zStart; z < zEnd; z++)
 			{
 				for (int y = PlotConfiguration.intPlotHeight; y < PlotConfiguration.intPlotHeight + 2; y++)
 				{
-					counter += this._removeRoadAt(x, y, z);
+					this._removeRoadAt(x, y, z);
 				}
 			}
 		}
 
-		Builddit.getInstance().getLogger().log(Level.INFO, "Replaced " + counter + " blocks for building.");
+		this.model.setNorthRoadRemoved(true);
+		if (this.model.isEastRoadRemoved())
+		{
+			// If other road was removed, we'd also need to remove center
+			this.removeRoadCenter();
+		}
+	}
+
+	public void removeRoadCenter()
+	{
+		// Remove the square from the center of road
+		int xStart = this.getPlotX() * PlotConfiguration.intPlotCalculatedSize;
+		int xEnd   = this.getPlotX() * PlotConfiguration.intPlotCalculatedSize + PlotConfiguration.intPlotSize;
+		int zStart = this.getPlotZ() * PlotConfiguration.intPlotCalculatedSize;
+		int zEnd   = this.getPlotZ() * PlotConfiguration.intPlotCalculatedSize + PlotConfiguration.intPlotSize;
+
+		for (int x = xStart; x < xEnd; x++)
+		{
+			for (int z = zStart; z < zEnd; z++)
+			{
+				for (int y = PlotConfiguration.intPlotHeight; y < PlotConfiguration.intPlotHeight + 2; y++)
+				{
+					this._removeRoadAt(x, y, z);
+				}
+			}
+		}
 	}
 
 	private void _regenerateArea(Player requester, int xStart, int xEnd, int zStart, int zEnd)
@@ -711,6 +734,12 @@ public class Plot {
 		int zEnd   = this.getPlotZ() * PlotConfiguration.intPlotCalculatedSize + PlotConfiguration.intPlotSize;
 
 		this._regenerateArea(player, xStart, xEnd, zStart, zEnd);
+		this.model.setEastRoadRemoved(false);
+		if (this.model.isNorthRoadRemoved())
+		{
+			// If the other road was removed, we need to regenerate center
+			this.placeRoadCenter(player);
+		}
 	}
 
 	public void placeRoadNorth(Player player)
@@ -719,6 +748,23 @@ public class Plot {
 		int zEnd   = zStart + PlotConfiguration.intRoadWidth + 2;
 		int xStart = this.getPlotX() * PlotConfiguration.intPlotCalculatedSize;
 		int xEnd   = this.getPlotX() * PlotConfiguration.intPlotCalculatedSize + PlotConfiguration.intPlotSize;
+
+		this._regenerateArea(player, xStart, xEnd, zStart, zEnd);
+		this.model.setNorthRoadRemoved(false);
+		if (this.model.isEastRoadRemoved())
+		{
+			// If the other road was removed, we need to regenerate center
+			this.placeRoadCenter(player);
+		}
+	}
+
+	public void placeRoadCenter(Player player)
+	{
+		// Regenerate the center square of the road
+		int xStart = this.getPlotX() * PlotConfiguration.intPlotCalculatedSize;
+		int xEnd   = this.getPlotX() * PlotConfiguration.intPlotCalculatedSize + PlotConfiguration.intPlotSize;
+		int zStart = this.getPlotZ() * PlotConfiguration.intPlotCalculatedSize;
+		int zEnd   = this.getPlotZ() * PlotConfiguration.intPlotCalculatedSize + PlotConfiguration.intPlotSize;
 
 		this._regenerateArea(player, xStart, xEnd, zStart, zEnd);
 	}

@@ -20,6 +20,9 @@ public class PlotModel {
 	private boolean isNeighbourNorth;
 	private boolean isNeighbourSouth;
 
+	private boolean isNorthRoadRemoved;
+	private boolean isEastRoadRemoved;
+
 	public int getPid() {
 		return pid;
 	}
@@ -110,5 +113,21 @@ public class PlotModel {
 
 	public void setNeighbourSouth(boolean neighbourSouth) {
 		isNeighbourSouth = neighbourSouth;
+	}
+
+	public boolean isNorthRoadRemoved() {
+		return isNorthRoadRemoved;
+	}
+
+	public void setNorthRoadRemoved(boolean northRoadRemoved) {
+		isNorthRoadRemoved = northRoadRemoved;
+	}
+
+	public boolean isEastRoadRemoved() {
+		return isEastRoadRemoved;
+	}
+
+	public void setEastRoadRemoved(boolean eastRoadRemoved) {
+		isEastRoadRemoved = eastRoadRemoved;
 	}
 }
